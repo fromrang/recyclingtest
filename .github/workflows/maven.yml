@@ -17,6 +17,7 @@ on:
 jobs:
   build:
 
+<<<<<<< HEAD
     runs-on: self-hosted
 
     steps:
@@ -25,10 +26,21 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
+=======
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+>>>>>>> 2ddee1c (Create maven.yml)
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+<<<<<<< HEAD
     - name: rename app folder
       run: mv /home/ubuntu/yogidamayo/app /home/ubuntu/yogidamayo/app_bak
     - name: make directory app
@@ -39,6 +51,8 @@ jobs:
       run: jar xvf /home/ubuntu/yogidamayo/app/recycling-0.0.1-SNAPSHOT.war
     - name: restart tomcat
       run: sudo service tomcat restart
+=======
+>>>>>>> 2ddee1c (Create maven.yml)
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
