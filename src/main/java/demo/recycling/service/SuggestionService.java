@@ -1,5 +1,6 @@
 package demo.recycling.service;
 
+import demo.recycling.dto.Notice;
 import demo.recycling.dto.Suggestion;
 import demo.recycling.repository.SuggestionDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import java.util.List;
 public class SuggestionService {
     @Autowired
     Suggestion suggestion;
+    @Autowired
+    Notice notice;
 
     @Autowired
     SuggestionDao suggestionDao;
@@ -32,6 +35,35 @@ public class SuggestionService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<Notice> serviceNoticeAll(){
+        try{
+            return suggestionDao.selectNoticeAllDao();
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public Boolean serviceNoticeInsert(Notice notice){
+        try {
+            int result = suggestionDao.insertNoticeDao(notice);
+            if(result < 1) return false;
+            else return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public Notice serviceNoticeSelectOne(int nseq){
+        try {
+            Notice notice = suggestionDao.selectNoticeOneDao(nseq);
+            return notice;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
 }
