@@ -66,4 +66,8 @@ public class NoticeController {
         }
     }
 
+    //공지사항 수정하기
+    //문의사항 삭제하기
+    //공지사항 삭제하기
+
 }
