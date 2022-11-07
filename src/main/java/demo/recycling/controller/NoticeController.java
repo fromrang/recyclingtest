@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @RestController
@@ -65,9 +66,5 @@ public class NoticeController {
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]noticeOneView", notice), HttpStatus.OK);
         }
     }
-
-    //공지사항 수정하기
-    //문의사항 삭제하기
-    //공지사항 삭제하기
 
 }

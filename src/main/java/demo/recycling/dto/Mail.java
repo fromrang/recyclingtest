@@ -8,13 +8,10 @@ import java.util.Date;
 @Service
 @Getter
 @Setter
-public class Suggestion {
-    private int aseq;
-    private String email;
+public class Mail {
+    private int mseq;
+    private String useremail;
     private String title;
     private String content;
     private Date reg_date;
 }
-
-
-
