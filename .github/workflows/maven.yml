@@ -27,18 +27,18 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-      - name: rename app folder
-        run: mv /home/ubuntu/yogidamayo/app /home/ubuntu/yogidamayo/app_bak
-      - name: maker directory app
-        run: mkdir /home/ubuntu/yogidamayo/app
-      - name: move war
-        run : cp target/recycling-0.0.1-SNAPSHOT.war /home/ubuntu/yogidamayo/app
-      - name: war file unzip
-        run: jar xvf /home/ubuntu/yogidamayo/app/recycling-0.0.1-SNAPSHOT.war
-      - name: restart tomcat
-        run: sudo service tomcat restart
+#       - name: Build with Maven
+#         run: mvn -B package --file pom.xml
+#       - name: rename app folder
+#         run: mv /home/ubuntu/yogidamayo/app /home/ubuntu/yogidamayo/app_bak
+#       - name: maker directory app
+#         run: mkdir /home/ubuntu/yogidamayo/app
+#       - name: move war
+#         run : cp target/recycling-0.0.1-SNAPSHOT.war /home/ubuntu/yogidamayo/app
+#       - name: war file unzip
+#         run: jar xvf /home/ubuntu/yogidamayo/app/recycling-0.0.1-SNAPSHOT.war
+#       - name: restart tomcat
+#         run: sudo service tomcat restart
 
       #     - name: Run a one-line script
       #       run: echo Hello, world!
