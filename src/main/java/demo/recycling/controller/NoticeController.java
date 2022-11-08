@@ -38,6 +38,12 @@ public class NoticeController {
         }
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]suggestioninsert", suggestion), HttpStatus.OK);
     }
+    //건의하기 삭제하기
+//    @DeleteMapping("/suggestion/{sseq}")
+//    public ResponseEntity suggestiondelete(@PathVariable int sseq){
+//
+//    }
+
     //공지사항 보기
     @GetMapping("/notice")
     public ResponseEntity noticeAllView(){
@@ -66,5 +72,16 @@ public class NoticeController {
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]noticeOneView", notice), HttpStatus.OK);
         }
     }
+    //공지사항 삭제
+//    @DeleteMapping("notice/{nesq}")
+//    public ResponseEntity noticeDelete(@PathVariable int nseq){
+//
+//    }
+
+    /*
+    * 공지사항 삭제
+    * 건의사항 삭제
+    * 공지사항 수정하기
+    * */
 
 }

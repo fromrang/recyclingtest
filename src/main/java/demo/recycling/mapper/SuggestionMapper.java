@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface SuggestionMapper {
 
-    @Select("select * from suggestion")
+    @Select("select * from suggestion where status='0'")
     public List<Suggestion> selectSuggestion() throws Exception;
 
     @Insert("insert into suggestion(email, title, content) values(#{email}, #{title}, #{content})")
