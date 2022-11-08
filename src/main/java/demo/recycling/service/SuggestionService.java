@@ -65,5 +65,7 @@ public class SuggestionService {
         }
 
     }
+    //문의하기 삭제
+
 
 }
