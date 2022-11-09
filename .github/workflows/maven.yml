@@ -29,8 +29,8 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: rename app folder
-        run: mv -f /home/ubuntu/yogidamayo/app /home/ubuntu/yogidamayo/app_bak
+#       - name: rename app folder
+#         run: mv -f /home/ubuntu/yogidamayo/app /home/ubuntu/yogidamayo/app_bak
       - name: maker directory app
         run: mkdir /home/ubuntu/yogidamayo/app
       - name: move war
