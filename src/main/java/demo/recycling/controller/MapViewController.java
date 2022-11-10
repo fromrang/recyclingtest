@@ -3,7 +3,7 @@ package demo.recycling.controller;
 import demo.recycling.dto.DefaultRes;
 import demo.recycling.dto.RecylingMap;
 import demo.recycling.dto.StatusCode;
-import demo.recycling.service.MapService;
+import demo.recycling.service.MapViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class MapView {
+public class MapViewController {
 
     @Autowired
-    demo.recycling.service.MapService MapService;
+    MapViewService MapService;
 
     //위치 주소 받기
     @PostMapping("/coordinate")
