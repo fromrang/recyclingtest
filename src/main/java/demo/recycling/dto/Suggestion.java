@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class Suggestion {
-    private int aseq;
+    private int sseq;
     private String email;
     private String title;
     private String content;

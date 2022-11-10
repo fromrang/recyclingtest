@@ -17,6 +17,7 @@ public class Admin {
     private String position;
     private String tel;
     private String authority;
+    private String status;
     private Date reg_date;
 }
 
