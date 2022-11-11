@@ -18,7 +18,8 @@ public class MapService {
     //폐건지&형광등 list
     List<RecylingMap> CsvWasteBattery(){
         List<RecylingMap> recylingMaps=new ArrayList<>();
-        File csv = new File("C:\\\\bigdata\\jupyterws\\project\\TotalWasteBattery.csv");
+        File csv = new File("/home/ubuntu/test/WEB-INF/classes/static/WasteBattery.csv");
+        //System.out.println("!!"+csv.getPath());
         BufferedReader br = null;
         String line = "";
         int count=0;
@@ -64,7 +65,8 @@ public class MapService {
     List<RecylingMap> CsvWastebasket(){
 
         List<RecylingMap> recylingMaps=new ArrayList<>();
-        File csv = new File("C:\\\\bigdata\\jupyterws\\project\\쓰레기.csv");
+        File csv = new File("/home/ubuntu/test/WEB-INF/classes/static/TrashBin.csv");
+        //System.out.println("!!"+csv.getPath());
         BufferedReader br = null;
         String line = "";
 
@@ -118,7 +120,8 @@ public class MapService {
     //센터 list
     List<RecylingMap> CsvWasteCenter(){
         List<RecylingMap> recylingMaps=new ArrayList<>();
-        File csv = new File("C:\\\\bigdata\\jupyterws\\project\\Center.csv");
+        File csv = new File("/home/ubuntu/test/WEB-INF/classes/static/RecyclingCenter.csv");
+        //System.out.println("!!"+csv.getPath());
         BufferedReader br = null;
         String line = "";
 
