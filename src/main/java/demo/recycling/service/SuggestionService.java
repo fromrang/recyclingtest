@@ -48,8 +48,7 @@ public class SuggestionService {
     public Boolean serviceNoticeInsert(Notice notice){
         try {
             int result = suggestionDao.insertNoticeDao(notice);
-            if(result < 1) return false;
-            else return true;
+            return result >= 1;
         }catch (Exception e){
             e.printStackTrace();
             return false;
@@ -66,6 +65,35 @@ public class SuggestionService {
 
     }
     //문의하기 삭제
+    public boolean serviceSuggestionDelete(int sseq){
+        try{
+            int result = suggestionDao.updateSuggestionStatusDao(sseq);
+            return result >= 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    //공지사항 수정
+    public boolean serviceNoticeUpdate(Notice notice){
+        try{
+            int result = suggestionDao.updateNoticeOneDao(notice);
+            return result >= 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 
+    //공지사항 삭제
+    public boolean serviceNoticeDelete(int nseq){
+        try{
+            int result = suggestionDao.updateNoticeStatusDao(nseq);
+            return result >= 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
