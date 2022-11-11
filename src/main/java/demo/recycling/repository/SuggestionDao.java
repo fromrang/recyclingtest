@@ -62,5 +62,39 @@ public class SuggestionDao {
             sqlSession.close();
         }
     }
+    //문의하기 삭제
+    public int updateSuggestionStatusDao(int sseq) throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            int result = sqlSession.getMapper(SuggestionMapper.class).updateSuggestionStatus(sseq);
+            sqlSession.commit();
+            return result;
+        }finally {
+            sqlSession.close();
+        }
+    }
+    //공지사항 수정
+    public int updateNoticeOneDao(Notice notice) throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            int result = sqlSession.getMapper(SuggestionMapper.class).updateNoticeOne(notice);
+            sqlSession.commit();
+            return result;
+        }finally {
+            sqlSession.close();
+        }
+    }
+    //공지사항 삭제
+    public int updateNoticeStatusDao(int nseq) throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            int result = sqlSession.getMapper(SuggestionMapper.class).updateNoticeStatus(nseq);
+            sqlSession.commit();
+            return result;
+        }finally {
+            sqlSession.close();
+        }
+    }
+
 
 }

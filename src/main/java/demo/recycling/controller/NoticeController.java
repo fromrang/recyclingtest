@@ -1,9 +1,6 @@
 package demo.recycling.controller;
 
-import demo.recycling.dto.DefaultRes;
-import demo.recycling.dto.Notice;
-import demo.recycling.dto.StatusCode;
-import demo.recycling.dto.Suggestion;
+import demo.recycling.dto.*;
 import demo.recycling.service.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,10 +36,15 @@ public class NoticeController {
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]suggestioninsert", suggestion), HttpStatus.OK);
     }
     //건의하기 삭제하기
-//    @DeleteMapping("/suggestion/{sseq}")
-//    public ResponseEntity suggestiondelete(@PathVariable int sseq){
-//
-//    }
+    @DeleteMapping("/suggestion/{sseq}")
+    public ResponseEntity suggestiondelete(@PathVariable int sseq){
+        boolean result = suggestionService.serviceSuggestionDelete(sseq);
+        if(result){
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]suggestiondelete", sseq), HttpStatus.OK);
+        }else{
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]suggestiondelete"), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     //공지사항 보기
     @GetMapping("/notice")
@@ -73,15 +75,26 @@ public class NoticeController {
         }
     }
     //공지사항 삭제
-//    @DeleteMapping("notice/{nesq}")
-//    public ResponseEntity noticeDelete(@PathVariable int nseq){
-//
-//    }
+    @DeleteMapping("/notice/{nseq}")
+    public ResponseEntity noticeDelete(@PathVariable int nseq){
+        boolean result = suggestionService.serviceNoticeDelete(nseq);
+        if(result){
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]noticeDelete", nseq), HttpStatus.OK);
+        }else{
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]noticeDelete"), HttpStatus.BAD_REQUEST);
+        }
+    }
 
-    /*
-    * 공지사항 삭제
-    * 건의사항 삭제
-    * 공지사항 수정하기
-    * */
+    //공지사항 수정
+    @PutMapping("/notice")
+    public ResponseEntity noticeRevise(@RequestBody Notice notice){
+        if(notice.getNseq()== 0 || notice.getTitle() == null || notice.getContent() == null) return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[SUCCESS]noticeRevise"), HttpStatus.BAD_REQUEST);
+        boolean result = suggestionService.serviceNoticeUpdate(notice);
+        if(result){
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]noticeRevise", notice), HttpStatus.OK);
+        }else{
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]noticeRevise"), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
