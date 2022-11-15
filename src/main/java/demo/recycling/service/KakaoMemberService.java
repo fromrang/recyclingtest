@@ -72,18 +72,18 @@ public class KakaoMemberService{
 
         HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(parameters, headers);
         ResponseEntity<String> apiResponse = restTemplate.postForEntity(uri, restRequest, String.class);
-        //System.out.println(apiResponse.getBody());
+        System.out.println(apiResponse.getBody());
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); // NULL이 아닌 값만 응답받기(NULL인 경우는 생략)
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         KakaoLoginDto kakaoLoginDto = objectMapper.readValue(apiResponse.getBody(), new TypeReference<KakaoLoginDto>() {});
-
+        //System.out.println(kakaoLoginDto);
         //JSONObject responseBody = apiResponse.getBody();
         //kakaoUniqueNo= kakaoLoginDto.getEmail();
         kakaoUniqueNo= kakaoLoginDto.getKakao_account();
-        System.out.println(kakaoUniqueNo.get("email"));
+        //System.out.println(kakaoUniqueNo.get("email"));
         //kakaoUniqueNo = Integer.toString(responseBody.getInt("id"));
 
         return (String) kakaoUniqueNo.get("email");

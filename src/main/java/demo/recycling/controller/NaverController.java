@@ -1,6 +1,11 @@
 package demo.recycling.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import demo.recycling.dto.NaverLoginDto;
 import demo.recycling.repository.NaverLoginBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 @RestController
 public class NaverController {
@@ -26,8 +32,6 @@ public class NaverController {
     @RequestMapping(value = "/login/oauth2/code/naver")
     public String oauthNaver(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws Exception {
 
-//        JSONParser parser = new JSONParser();
-//        Gson gson = new Gson();
 
         session = request.getSession();
         String code = request.getParameter("code");
@@ -48,25 +52,15 @@ public class NaverController {
         //로그인 사용자 정보를 읽어온다.
         String loginInfo = naverLoginBO.getUserProfile(session, oauthToken);
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-        // JSON 형태로 변환
-//        Object obj = parser.parse(loginInfo);
-//        JSONObject jsonObj = JSONObject.fromObject(gson.toJson(obj));
-//        JSONObject callbackResponse = (JSONObject) jsonObj.get("response");
-//        String naverUniqueNo = callbackResponse.get("id").toString();
-//
-//        if (naverUniqueNo != null && !naverUniqueNo.equals("")) {
-//
-//            /**
-//
-//             TO DO : 리턴받은 naverUniqueNo 해당하는 회원정보 조회 후 로그인 처리 후 메인으로 이동
-//
-//             */
-//
-//            // 네이버 정보조회 실패
-//        } else {
-//            throw new ErrorMessage("네이버 정보조회에 실패했습니다.");
-//        }
-        return loginInfo;
+        NaverLoginDto naverLoginDto = objectMapper.readValue(loginInfo, new TypeReference<NaverLoginDto>() {});
+        HashMap resultMap = naverLoginDto.getResponse();
+
+
+        return (String) resultMap.get("email");
+
     }
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import demo.recycling.dto.*;
 import demo.recycling.repository.Program;
+import demo.recycling.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,11 +19,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 @RestController
-public class UserAuthController {
+public class GoogleController {
     @Autowired
     Program program;
+
+    @Autowired
+    UserService userService;
 
     @Value("${google.login.url}")
     String googleLoginUrl;
@@ -87,8 +92,16 @@ public class UserAuthController {
 
             if(resultJson != null) {
                 GoogleLoginDto userInfoDto = objectMapper.readValue(resultJson, new TypeReference<GoogleLoginDto>() {});
-                String token = program.createToken(userInfoDto.getEmail());
-                return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]oauth_google", token), HttpStatus.OK);
+                String nickname = userService.userExistCheck(userInfoDto.getEmail());
+                if(nickname.equals("false")){ // 닉네임 추가 창으로 넘어가기
+                    return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[Fail]oauth_google", userInfoDto.getEmail()), HttpStatus.OK);
+                }
+
+                String token = program.createToken(nickname);
+                HashMap<String, String> data = new HashMap<>();
+                data.put("nickname", nickname);
+                data.put("jwt token", token);
+                return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]oauth_google", data), HttpStatus.OK);
             }
             else {
                 throw new Exception("Google OAuth failed!");
