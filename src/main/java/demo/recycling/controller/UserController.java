@@ -15,7 +15,7 @@ public class UserController {
 
     @GetMapping("/kakao/login")
     public String kakaoCallback() {
-        return "https://kauth.kakao.com/oauth/authorize?client_id=4e2b5b43114dc36b9d0fdac9b15fb983&redirect_uri=http://localhost:7878/oauth/kakao/callback&response_type=code";
+        return "https://kauth.kakao.com/oauth/authorize?client_id=7a8c9cf9e63bae4750c392fc2390e44b&redirect_uri=http://localhost:7878/oauth/kakao/callback&response_type=code";
     }
 
     // 카카오 연동정보 조회

@@ -34,7 +34,7 @@ public class KakaoMemberService{
 
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
         parameters.set("grant_type", "authorization_code");
-        parameters.set("client_id", "4e2b5b43114dc36b9d0fdac9b15fb983");
+        parameters.set("client_id", "7a8c9cf9e63bae4750c392fc2390e44b");
         parameters.set("redirect_uri", "http://localhost:7878/oauth/kakao/callback");
         parameters.set("code", code);
 
@@ -65,7 +65,7 @@ public class KakaoMemberService{
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "bearer " + accessToken);
-        headers.set("KakaoAK", "dfeb95f48524729e3b6dd42722b68153");
+        headers.set("KakaoAK", "3ad0fa1ef488c8b77d31426574d80879");
 
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
         parameters.add("property_keys", "[\"kakao_account.email\"]");
