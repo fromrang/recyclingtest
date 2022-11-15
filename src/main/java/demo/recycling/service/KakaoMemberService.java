@@ -72,7 +72,7 @@ public class KakaoMemberService{
 
         HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(parameters, headers);
         ResponseEntity<String> apiResponse = restTemplate.postForEntity(uri, restRequest, String.class);
-        System.out.println(apiResponse.getBody());
+        //System.out.println(apiResponse.getBody());
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
