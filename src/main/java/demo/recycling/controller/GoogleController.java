@@ -94,7 +94,7 @@ public class GoogleController {
                 GoogleLoginDto userInfoDto = objectMapper.readValue(resultJson, new TypeReference<GoogleLoginDto>() {});
                 String nickname = userService.userExistCheck(userInfoDto.getEmail());
                 if(nickname.equals("false")){ // 닉네임 추가 창으로 넘어가기
-                    return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[Fail]oauth_google", userInfoDto.getEmail()), HttpStatus.OK);
+                    return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[Fail]not exist user", userInfoDto.getEmail()), HttpStatus.OK);
                 }
 
                 String token = program.createToken(nickname);
