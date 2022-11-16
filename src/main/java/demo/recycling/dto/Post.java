@@ -4,15 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Getter
 @Setter
 public class Post {
     private int pseq;
-    private int num;
+    private int rum;
     private String nickname;
     private String content;
-    private String image_name;
+    private String profile_image;
+    private List<Image> imageList;
     private Date reg_date;
 }
