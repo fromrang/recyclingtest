@@ -27,21 +27,25 @@ public class RoomController {
         if(nickname == null || nickname.equals("")) return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]parameter error"), HttpStatus.BAD_REQUEST);
         List<Room> myroomlist = roomService.selectMyRoom(nickname);
         if(myroomlist.isEmpty()){
-            return new ResponseEntity(DefaultRes.res(StatusCode.NOT_FOUND, "[FAIL]/room/{nickname}"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomMyview", myroomlist), HttpStatus.OK);
         }
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]myroomview", myroomlist), HttpStatus.OK);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomMyview", myroomlist), HttpStatus.OK);
     }
     
     //방 만들기
     @PostMapping("/community")
     public ResponseEntity createRoom(@RequestBody Room room){
 
+        if(room.getNickname() == null || room.getTitle() == null || room.getRm_type()==null || room.getMaxnum() == 0 || room.getTags() == null){
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]parameter error"), HttpStatus.BAD_REQUEST);
+        }
+
         int result = roomService.insertRoom(room);
 
         if(result > -1 ){
-            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomInsert"), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]createRoom", room), HttpStatus.OK);
         }else {
-            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]roomInsert"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]createRoom"), HttpStatus.BAD_REQUEST);
         }
     }
 

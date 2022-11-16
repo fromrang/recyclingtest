@@ -61,10 +61,10 @@ public class KakaoController {
             HashMap<String, String> data = new HashMap<>();
             data.put("nickname", nickname);
             data.put("jwt token", token);
-            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]oauth/kakao/callback", data), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]oauthKakao", data), HttpStatus.OK);
 
         } else {
-            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]oauth/kakao/callback"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]oauthKakao"), HttpStatus.BAD_REQUEST);
         }
 
     }
