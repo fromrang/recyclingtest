@@ -18,6 +18,9 @@ public class Room {
     private int count;
     private int maxnum;
     private Date reg_date;
-    private String nickname;
+    private String tag;
     private List<String> tags;
+    private String nickname;
+
+
 }

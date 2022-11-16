@@ -6,9 +6,10 @@ import demo.recycling.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @RestController
 public class RoomController {
@@ -16,6 +17,20 @@ public class RoomController {
     RoomDao roomDao;
     @Autowired
     RoomService roomService;
+
+    @Autowired
+    Tag tag;
+
+    @GetMapping("/room/{nickname}")
+    public ResponseEntity roomMyview(@PathVariable String nickname) throws NoSuchAlgorithmException {
+        List<Room> myroomlist = roomService.selectMyRoom(nickname);
+        List<String> taglist = roomService.selectTag(nickname);
+        for(int i=0;i<taglist.size(); i++){
+            myroomlist.get(i).setTag(taglist.get(i));
+        }
+        System.out.println(myroomlist);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]myroomview", myroomlist), HttpStatus.OK);
+    }
 
     @PostMapping("/community")
     public ResponseEntity createRoom(@RequestBody Room room){
