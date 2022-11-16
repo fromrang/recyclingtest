@@ -35,7 +35,7 @@ public class MapService {
                     WasteBattery.setName(linArr[0]);
                     WasteBattery.setAdderess(linArr[1]);
                     WasteBattery.setNumber(linArr[2]);
-                    System.out.println(count+"  :  "+linArr[1]);
+                    //System.out.println(count+"  :  "+linArr[1]);
                     WasteBattery.setLat(Double.valueOf(linArr[3]));
                     WasteBattery.setLon(Double.valueOf(linArr[4]));
                     WasteBattery.setCode(1);
@@ -231,7 +231,7 @@ public class MapService {
             Filter.add(noReturn);
             return Filter;
         }
-        System.out.println("총 사이즈"+Filter.size());
+        //System.out.println("총 사이즈"+Filter.size());
 
         return Filter;
     }

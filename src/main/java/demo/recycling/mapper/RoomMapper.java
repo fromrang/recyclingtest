@@ -23,7 +23,7 @@ public interface RoomMapper {
     @Insert("INSERT INTO member(rum,nickname) VALUES(#{rum},#{nickname})")
     public int insertMember(int rum, String nickname) throws Exception;
 
-    @Select("SELECT *,(SELECT tag_name from tag where tag.rum= room.rum) as tag FROM room WHERE rum in (SELECT rum FROM member WHERE nickname=#{nickname})")
+    @Select("SELECT rum,title, rm_type, count, maxnum,reg_date,(SELECT tag_name from tag where tag.rum= room.rum) as tag FROM room WHERE rum in (SELECT rum FROM member WHERE nickname=#{nickname})")
     public List<Room> selectMyRoom(String nickname) throws Exception; // 소속된 방 조회
 
     @Select("select tag_name from tag where rum in (SELECT rum FROM member WHERE nickname=#{nickname})")

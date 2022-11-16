@@ -55,7 +55,7 @@ public class RoomDao {
 
     // Room에서 rum추출
     public int selectRum(String userEmail) throws Exception{
-        System.out.println("!!!!"+userEmail);
+        //System.out.println("!!!!"+userEmail);
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try{
             int rum = sqlSession.getMapper(RoomMapper.class).selectRum(userEmail);
