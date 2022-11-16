@@ -9,6 +9,8 @@ import demo.recycling.repository.RoomDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoomService {
 
@@ -16,6 +18,7 @@ public class RoomService {
     RoomDao roomDao;
     @Autowired
     Room room;
+
 
     public int insertRoom(Room room){
         try{
@@ -49,6 +52,24 @@ public class RoomService {
         }catch (Exception e){
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    public List<Room> selectMyRoom(String nickname) {
+        try{
+            return roomDao.selectMyRoom(nickname);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<String> selectTag(String nickname) {
+        try{
+            return roomDao.selectTag(nickname);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 

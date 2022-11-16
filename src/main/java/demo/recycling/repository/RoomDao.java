@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.beans.PropertyEditorSupport;
+import java.util.List;
 
 @Repository
 public class RoomDao {
@@ -71,6 +72,24 @@ public class RoomDao {
             int result = sqlSession.getMapper(RoomMapper.class).insertMember(rum,nickname);
             sqlSession.commit();
             return result;
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public List<Room> selectMyRoom(String nickname) throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            return sqlSession.getMapper(RoomMapper.class).selectMyRoom(nickname);
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public List<String> selectTag(String nickname) throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            return sqlSession.getMapper(RoomMapper.class).selectTag(nickname);
         }finally {
             sqlSession.close();
         }
