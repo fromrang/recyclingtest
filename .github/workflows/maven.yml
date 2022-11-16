@@ -30,13 +30,13 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: rename app folder
-        run: mv -f /home/ubuntu/yogidamayo/app /home/ubuntu/yogidamayo/app_bak
+        run: mv -f /home/rang/yogidamayo/app /home/rang/yogidamayo/app_bak
       - name: maker directory app
-        run: mkdir /home/ubuntu/yogidamayo/app
+        run: mkdir /home/rang/yogidamayo/app
       - name: move war
-        run : cp target/recycling-0.0.1-SNAPSHOT.war /home/ubuntu/yogidamayo/app
+        run : cp target/recycling-0.0.1-SNAPSHOT.war /home/rang/yogidamayo/app
       - name: war file unzip
-        run: unzip target/recycling-0.0.1-SNAPSHOT.war -d /home/ubuntu/yogidamayo/app
+        run: unzip target/recycling-0.0.1-SNAPSHOT.war -d /home/rang/yogidamayo/app
       - name: restart tomcat
         run: sudo service tomcat restart
 
