@@ -77,6 +77,7 @@ public class RoomService {
     public List<Room> selectMyRoom(String nickname) {
         try{
             List<Room> rooms = roomDao.selectMyRoom(nickname);
+            if(rooms.isEmpty())return rooms;
             for(Room room:rooms){
                 //System.out.println(room.getTag());
 

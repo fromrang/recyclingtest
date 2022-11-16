@@ -82,7 +82,7 @@ public class NaverController {
         HashMap<String, String> data = new HashMap<>();
         data.put("nickname", nickname);
         data.put("jwt token", token);
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]/login/oauth2/code/naver", data), HttpStatus.OK);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]oauthNaver", data), HttpStatus.OK);
 
     }
 }
