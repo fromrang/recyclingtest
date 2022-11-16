@@ -35,7 +35,9 @@ public class KakaoMemberService{
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
         parameters.set("grant_type", "authorization_code");
         parameters.set("client_id", "7a8c9cf9e63bae4750c392fc2390e44b");
-        parameters.set("redirect_uri", "http://localhost:7878/oauth/kakao/callback");
+        //parameters.set("redirect_uri", "http://localhost:7878/oauth/kakao/callback");
+
+        parameters.set("redirect_uri", "http://yodidamayo.tk:8080/oauth/kakao/callback");
         parameters.set("code", code);
 
         HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(parameters, headers);

@@ -21,25 +21,24 @@ public class RoomController {
     @Autowired
     Tag tag;
 
+    //사용자 별 방리스트
     @GetMapping("/room/{nickname}")
-    public ResponseEntity roomMyview(@PathVariable String nickname) throws NoSuchAlgorithmException {
+    public ResponseEntity roomMyview(@PathVariable String nickname)  {
+        if(nickname == null || nickname.equals("")) return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]parameter error"), HttpStatus.BAD_REQUEST);
         List<Room> myroomlist = roomService.selectMyRoom(nickname);
-        List<String> taglist = roomService.selectTag(nickname);
-        for(int i=0;i<taglist.size(); i++){
-            myroomlist.get(i).setTag(taglist.get(i));
+        if(myroomlist.isEmpty()){
+            return new ResponseEntity(DefaultRes.res(StatusCode.NOT_FOUND, "[FAIL]/room/{nickname}"), HttpStatus.NOT_FOUND);
         }
-        System.out.println(myroomlist);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]myroomview", myroomlist), HttpStatus.OK);
     }
-
+    
+    //방 만들기
     @PostMapping("/community")
     public ResponseEntity createRoom(@RequestBody Room room){
-        System.out.println(room.getTags());
+
         int result = roomService.insertRoom(room);
-        String stringTag = String.join("$",room.getTags()); // List Type을 String Type으로 변환 해주기
-        int result2 = roomService.insertMember(room.getNickname());
-        int result3 = roomService.insertTag(room, stringTag);
-        if(result > 0 || result2 > 0 || result3>0){
+
+        if(result > -1 ){
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomInsert"), HttpStatus.OK);
         }else {
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]roomInsert"), HttpStatus.BAD_REQUEST);

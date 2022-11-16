@@ -9,6 +9,7 @@ import demo.recycling.repository.RoomDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,55 +23,85 @@ public class RoomService {
 
     public int insertRoom(Room room){
         try{
+            //System.out.println("!!!"+room.getNickname());
             String email = roomDao.selectUserInfo(room.getNickname());
+            String tagString = "";
+            if(room.getTags() != null || !room.getTags().isEmpty()) {
+                tagString = String.join("$", room.getTags());
+            }
+            room.setTag(tagString);
             room.setUserEmail(email);
-            return roomDao.insertRoom(room);
+
+            roomDao.insertRoom(room);
+
+            int rum = roomDao.selectRum(email);
+
+            if(rum < 0){
+                return rum;
+            }
+
+            roomDao.insertMember(rum, room.getNickname());
+            roomDao.insertTag(rum, tagString);
+
+            return rum;
         }catch(Exception e){
             e.printStackTrace();
             return 0;
         }
     }
 
-    public int insertTag(Room room, String tags){
-        try{
-            String email = roomDao.selectUserInfo(room.getNickname());
-            int rum = roomDao.selectRum(email);
-            //tag.setRum(rum);
-            return roomDao.insertTag(rum, tags);
-        }catch(Exception e){
-            e.printStackTrace();
-            return 0;
-        }
-    }
+//    public int insertTag(Room room, String tags){
+//        try{
+//            String email = roomDao.selectUserInfo(room.getNickname());
+//            int rum = roomDao.selectRum(email);
+//            //tag.setRum(rum);
+//            return roomDao.insertTag(rum, tags);
+//        }catch(Exception e){
+//            e.printStackTrace();
+//            return 0;
+//        }
+//    }
 
-    public int insertMember(String nickname){
-        try{
-            String email = roomDao.selectUserInfo(nickname);
-            int rum = roomDao.selectRum(email);
-            //member.setRum(rum);
-            return roomDao.insertMember(rum, nickname);
-        }catch (Exception e){
-            e.printStackTrace();
-            return 0;
-        }
-    }
+//    public int insertMember(String nickname){
+//        try{
+//            String email = roomDao.selectUserInfo(nickname);
+//            int rum = roomDao.selectRum(email);
+//            //member.setRum(rum);
+//            return roomDao.insertMember(rum, nickname);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return 0;
+//        }
+//    }
 
     public List<Room> selectMyRoom(String nickname) {
         try{
-            return roomDao.selectMyRoom(nickname);
+            List<Room> rooms = roomDao.selectMyRoom(nickname);
+            for(Room room:rooms){
+                //System.out.println(room.getTag());
+
+                room.setTags(Arrays.asList(room.getTag().split("\\$")));
+                room.setTag(null);
+            }
+            //return roomDao.selectMyRoom(nickname);
+            return rooms;
         }catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
+    /*
     public List<String> selectTag(String nickname) {
         try{
+            List<String> tags = roomDao.selectTag(nickname);
+            System.out.println(tags.toString());
             return roomDao.selectTag(nickname);
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
+    */
 
 }
