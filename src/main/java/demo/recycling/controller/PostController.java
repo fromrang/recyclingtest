@@ -75,13 +75,13 @@ public class PostController {
         boolean result = postService.postinsert(files,post);
 
         if(!result){
-            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]suggestionPost"), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]insertPost"), HttpStatus.OK);
         }
         else{
             int pseq = postDao.selectpseq();
             Post data = postDao.selectpostone(pseq);
             data.setImageList(postDao.selectImage(pseq));
-            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]suggestionPost",data), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]insertPost",data), HttpStatus.OK);
         }
 
     }
@@ -100,13 +100,13 @@ public class PostController {
         boolean result = postService.postupdate(files,post,images);
 
         if(!result){
-            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]suggestionPostUpdate"), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]updatePost"), HttpStatus.OK);
         }
         else{
             int pseqNum = postDao.selectpseq();
             Post data = postDao.selectpostone(pseqNum);
             data.setImageList(postDao.selectImage(pseqNum));
-            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]suggestionPost",data), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]updatePost",data), HttpStatus.OK);
         }
 
     }

@@ -81,8 +81,8 @@ public class PostService {
     // 사진과 Post 정보를 저장.
     public boolean postinsert(List<MultipartFile> files, Post post) throws Exception{
 
-       // String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
-        String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+       String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
 
         List<String> imageName = new ArrayList<>();
         int buff = 0;
@@ -141,8 +141,8 @@ public class PostService {
         List<String> DeleteName = new ArrayList<>();
         int check = 0;
 
-        String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
-        //String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+        String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
 
         // 해당 이미지들 불러오기.
         imageName = postDao.selectImage(post.getPseq());
