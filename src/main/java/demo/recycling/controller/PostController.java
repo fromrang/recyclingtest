@@ -103,9 +103,8 @@ public class PostController {
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]updatePost"), HttpStatus.OK);
         }
         else{
-            int pseqNum = postDao.selectpseq();
-            Post data = postDao.selectpostone(pseqNum);
-            data.setImageList(postDao.selectImage(pseqNum));
+            Post data = postDao.selectpostone(pseq);
+            data.setImageList(postDao.selectImage(pseq));
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]updatePost",data), HttpStatus.OK);
         }
 
