@@ -23,43 +23,44 @@ public class RoomController {
 
     //사용자 별 방리스트
     @GetMapping("/room/{nickname}")
-    public ResponseEntity roomMyview(@PathVariable String nickname)  {
-        if(nickname == null || nickname.equals("")) return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]parameter error"), HttpStatus.BAD_REQUEST);
+    public ResponseEntity roomMyview(@PathVariable String nickname) {
+        if (nickname == null || nickname.equals(""))
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]parameter error"), HttpStatus.BAD_REQUEST);
         List<Room> myroomlist = roomService.selectMyRoom(nickname);
-        if(myroomlist.isEmpty()){
+        if (myroomlist.isEmpty()) {
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomMyview", myroomlist), HttpStatus.OK);
         }
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomMyview", myroomlist), HttpStatus.OK);
     }
-    
+
     //방 만들기
     @PostMapping("/community")
-    public ResponseEntity createRoom(@RequestBody Room room){
+    public ResponseEntity createRoom(@RequestBody Room room) {
 
-        if(room.getNickname() == null || room.getTitle() == null || room.getRm_type()==null || room.getMaxnum() == 0 || room.getTags() == null){
+        if (room.getNickname() == null || room.getTitle() == null || room.getRm_type() == null || room.getMaxnum() == 0 || room.getTags() == null) {
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]parameter error"), HttpStatus.BAD_REQUEST);
         }
 
         int result = roomService.insertRoom(room);
 
-        if(result > -1 ){
+        if (result > -1) {
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]createRoom", room), HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]createRoom"), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/room")
-    public ResponseEntity joinRoom(@RequestBody Member member ) throws NoSuchAlgorithmException{
-        Boolean result = roomService.joinRoom(member);
-        if(!result){
-            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]joinRoom"), HttpStatus.BAD_REQUEST);
-        }else{
-
+    public ResponseEntity joinRoom(@RequestBody Member member) throws NoSuchAlgorithmException {
+        String result = roomService.joinRoom(member);
+        if (result.equals("countOver")) {
+            return new ResponseEntity(DefaultRes.res(StatusCode.COUNT_OVER, "[FAIL]joinRoom"), HttpStatus.BAD_REQUEST);
+        } else if (result.equals("existsUser")) {
+            return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[FAIL]joinRoom"), HttpStatus.BAD_REQUEST);
+        } else {
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]joinRoom", member), HttpStatus.OK);
         }
     }
-
 
 
 }
