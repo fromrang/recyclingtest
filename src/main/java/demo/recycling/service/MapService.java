@@ -20,6 +20,7 @@ public class MapService {
         List<RecylingMap> recylingMaps=new ArrayList<>();
         //File csv = new File("/home/ubuntu/yogidamayo/app/WEB-INF/classes/static/WasteBattery.csv");
         File csv = new File("/home/rang/yogidamayo/app/WEB-INF/classes/static/WasteBattery.csv");
+        //File csv = new File("C:\\Users\\kye47\\OneDrive\\바탕 화면\\WasteBattery.csv");
         //System.out.println("!!"+csv.getPath());
         BufferedReader br = null;
         String line = "";
@@ -36,7 +37,7 @@ public class MapService {
                     WasteBattery.setName(linArr[0]);
                     WasteBattery.setAdderess(linArr[1]);
                     WasteBattery.setNumber(linArr[2]);
-                    //System.out.println(count+"  :  "+linArr[1]);
+                    System.out.println(count+"  :  "+linArr[1]);
                     WasteBattery.setLat(Double.valueOf(linArr[3]));
                     WasteBattery.setLon(Double.valueOf(linArr[4]));
                     WasteBattery.setCode(1);
@@ -67,6 +68,7 @@ public class MapService {
 
         List<RecylingMap> recylingMaps=new ArrayList<>();
         //File csv = new File("/home/ubuntu/yogidamayo/app/WEB-INF/classes/static/TrashBin.csv");
+        //File csv = new File("/home/rang/yogidamayo/app/WEB-INF/classes/static/TrashBin.csv");
         File csv = new File("/home/rang/yogidamayo/app/WEB-INF/classes/static/TrashBin.csv");
         //System.out.println("!!"+csv.getPath());
         BufferedReader br = null;
@@ -127,6 +129,7 @@ public class MapService {
         //System.out.println("!!"+csv.getPath());
         BufferedReader br = null;
         String line = "";
+        int count = 0;
 
         try {
             br = new BufferedReader(new FileReader(csv));
@@ -136,6 +139,7 @@ public class MapService {
                 List<String> aLine = new ArrayList<String>();
                 String[] linArr = line.split(",");
                 if(!linArr[0].equals("name")&&!linArr[1].equals("adderess")&&!linArr[2].equals("number")&&!linArr[3].equals("lat")&&!linArr[4].equals("long")){
+                    System.out.println(count+"  :  "+linArr[1]);
                     WasteCenter.setName(linArr[0]);
                     WasteCenter.setAdderess(linArr[1]);
                     WasteCenter.setNumber(linArr[2]);
