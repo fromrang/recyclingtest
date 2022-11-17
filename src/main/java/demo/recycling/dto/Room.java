@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 @Getter
 @Setter
-public class Room {
+public class Room implements Comparable<Room>{
     private int rum;
     private String userEmail;
     private String title;
@@ -22,5 +22,7 @@ public class Room {
     private List<String> tags;
     private String nickname;
 
-
+    public int compareTo(Room Room) {
+        return this.reg_date.compareTo(Room.reg_date);
+    }
 }
