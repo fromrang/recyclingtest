@@ -18,7 +18,8 @@ public class MapService {
     //폐건지&형광등 list
     List<RecylingMap> CsvWasteBattery(){
         List<RecylingMap> recylingMaps=new ArrayList<>();
-        File csv = new File("/home/ubuntu/yogidamayo/app/WEB-INF/classes/static/WasteBattery.csv");
+        //File csv = new File("/home/ubuntu/yogidamayo/app/WEB-INF/classes/static/WasteBattery.csv");
+        File csv = new File("/home/rang/yogidamayo/app/WEB-INF/classes/static/WasteBattery.csv");
         //System.out.println("!!"+csv.getPath());
         BufferedReader br = null;
         String line = "";
@@ -65,7 +66,8 @@ public class MapService {
     List<RecylingMap> CsvWastebasket(){
 
         List<RecylingMap> recylingMaps=new ArrayList<>();
-        File csv = new File("/home/ubuntu/yogidamayo/app/WEB-INF/classes/static/TrashBin.csv");
+        //File csv = new File("/home/ubuntu/yogidamayo/app/WEB-INF/classes/static/TrashBin.csv");
+        File csv = new File("/home/rang/yogidamayo/app/WEB-INF/classes/static/TrashBin.csv");
         //System.out.println("!!"+csv.getPath());
         BufferedReader br = null;
         String line = "";
@@ -120,7 +122,8 @@ public class MapService {
     //센터 list
     List<RecylingMap> CsvWasteCenter(){
         List<RecylingMap> recylingMaps=new ArrayList<>();
-        File csv = new File("/home/ubuntu/yogidamayo/app/WEB-INF/classes/static/RecyclingCenter.csv");
+        //File csv = new File("/home/ubuntu/yogidamayo/app/WEB-INF/classes/static/RecyclingCenter.csv");
+        File csv = new File("/home/rang/yogidamayo/app/WEB-INF/classes/static/RecyclingCenter.csv");
         //System.out.println("!!"+csv.getPath());
         BufferedReader br = null;
         String line = "";
