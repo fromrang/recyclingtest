@@ -20,7 +20,7 @@ public class MapViewController {
     demo.recycling.service.MapService MapService;
 
     //위치 주소 받기
-    @PostMapping("/coordinate")
+    @PostMapping(value = "/coordinate", produces="application/json;charset=UTF-8")
     public ResponseEntity CoordinateGet(@RequestBody RecylingMap map){
         List<RecylingMap> Coordinate =MapService.TotalAroundRecyclingMap(map.getLat(),map.getLon(),map.getCode());
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]coordinateView", Coordinate), HttpStatus.OK);
