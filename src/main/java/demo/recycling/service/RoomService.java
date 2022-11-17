@@ -108,30 +108,31 @@ public class RoomService {
     }
     */
 
-    public boolean joinRoom(Member member) {
+    public String joinRoom(Member member) {
         try {
             List<Room> roomList = roomDao.selectRoom(member.getRum());
             Member members = roomDao.nicknameCheck(member.getNickname() , member.getRum());
             if (roomList.get(0).getCount() >= roomList.get(0).getMaxnum()) {
-                return false;
+                return "countOver";
             } else {
 
                 if(members != null){
-                    return false;
+                    //System.out.println("!!!!");
+                    return "existsUser";
                 }else {
                     int result = roomDao.joinRoom(member.getRum());
                     roomDao.insertMember(member.getRum(), member.getNickname());
                     if (result < 1) {
-                        return false;
+                        return "false";
                     }
-                    return true;
+                    return "true";
 
                 }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return "false";
         }
     }
 

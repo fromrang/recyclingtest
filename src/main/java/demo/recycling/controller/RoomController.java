@@ -49,12 +49,13 @@ public class RoomController {
     }
 
     @PutMapping("/room")
-    public ResponseEntity joinRoom(@RequestBody Member member ) throws NoSuchAlgorithmException{
-        Boolean result = roomService.joinRoom(member);
-        if(!result){
-            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]joinRoom"), HttpStatus.BAD_REQUEST);
-        }else{
-
+    public ResponseEntity joinRoom(@RequestBody Member member) throws NoSuchAlgorithmException {
+        String result = roomService.joinRoom(member);
+        if (result.equals("countOver")) {
+            return new ResponseEntity(DefaultRes.res(StatusCode.COUNT_OVER, "[FAIL]joinRoom", "countOver"), HttpStatus.BAD_REQUEST);
+        } else if (result.equals("existsUser")) {
+            return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[FAIL]joinRoom","existsUser"), HttpStatus.BAD_REQUEST);
+        } else {
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]joinRoom", member), HttpStatus.OK);
         }
     }
