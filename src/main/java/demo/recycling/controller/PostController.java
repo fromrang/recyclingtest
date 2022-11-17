@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class PostController {
         List<Post> postList = postService.selectPost(rum);
         //System.out.println(postList);
         if(postList.isEmpty()){
-            return new ResponseEntity(DefaultRes.res(StatusCode.NO_CONTENT, "[FAIL]selectPostList"), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.NO_CONTENT, "[SUCCESS]selectPostList", postList), HttpStatus.OK);
         }else{
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]selectPostList",postList), HttpStatus.OK);
         }
@@ -32,16 +33,20 @@ public class PostController {
     @GetMapping("/entrance/{rum}")
     public ResponseEntity roomEnter(@PathVariable int rum){
         int roomType = postService.roomEnter(rum);
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomEnter",roomType), HttpStatus.OK);
+        HashMap<String, Integer> data = new HashMap<>();
+        data.put("rm_type", roomType);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomEnter",data), HttpStatus.OK);
     }
 
     @PostMapping("/pwdcheck")
     public ResponseEntity checkPwd(@RequestBody Room room){
         boolean result = postService.checkPwd(room.getRum(),room.getPassword());
         if(!result){
-            return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[FAIL]checkPwd"), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[FAIL]checkPwd", "wrong password"), HttpStatus.OK);
         }else {
-            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]checkPwd", room.getRum()), HttpStatus.OK);
+            HashMap<String, Integer> data = new HashMap<>();
+            data.put("rum", room.getRum());
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]checkPwd", data), HttpStatus.OK);
         }
     }
 
