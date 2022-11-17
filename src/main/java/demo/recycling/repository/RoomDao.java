@@ -95,4 +95,34 @@ public class RoomDao {
         }
     }
 
+    public int joinRoom(int rum) throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            int result = sqlSession.getMapper(RoomMapper.class).joinRoom(rum);
+            sqlSession.commit();
+            return result;
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public List<Room> selectRoom(int rum) throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            return sqlSession.getMapper(RoomMapper.class).selectRoom(rum);
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public Member nicknameCheck(String nickname , int rum) throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            Member member = sqlSession.getMapper(RoomMapper.class).nicknameCheck(nickname, rum);
+            return member;
+        } finally {
+            sqlSession.close();
+        }
+    }
+
 }

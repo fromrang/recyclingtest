@@ -49,4 +49,17 @@ public class RoomController {
         }
     }
 
+    @PutMapping("/room")
+    public ResponseEntity joinRoom(@RequestBody Member member ) throws NoSuchAlgorithmException{
+        Boolean result = roomService.joinRoom(member);
+        if(!result){
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]joinRoom"), HttpStatus.BAD_REQUEST);
+        }else{
+
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]joinRoom", member), HttpStatus.OK);
+        }
+    }
+
+
+
 }

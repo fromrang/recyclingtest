@@ -15,6 +15,6 @@ public class Post {
     private String nickname;
     private String content;
     private String profile_image;
-    private List<Image> imageList;
+    private List<Image> imageList; // 이미지 여러개 받기
     private Date reg_date;
 }
