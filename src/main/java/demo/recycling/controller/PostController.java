@@ -9,8 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 public class PostController {
@@ -82,9 +86,10 @@ public class PostController {
 
     }
 
+
     @PostMapping("postupdate")
     public ResponseEntity postupdate(@RequestParam List<MultipartFile> files,
-                                     @RequestParam int pseq, @RequestParam int rum,@RequestParam String nickname,@RequestParam String content)throws Exception{
+                                     @RequestParam int pseq, @RequestParam int rum,@RequestParam String nickname,@RequestParam String content,@RequestParam List<String> images)throws Exception{
 
         Post post = new Post();
         post.setPseq(pseq);
@@ -92,7 +97,7 @@ public class PostController {
         post.setNickname(nickname);
         post.setContent(content);
 
-        boolean result = postService.postupdate(files,post);
+        boolean result = postService.postupdate(files,post,images);
 
         if(!result){
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]suggestionPostUpdate"), HttpStatus.OK);
@@ -105,6 +110,33 @@ public class PostController {
         }
 
     }
+
+
+
+//    @PostMapping("postupdate")
+//    public ResponseEntity postupdate(@RequestParam List<MultipartFile> files,
+//                                     @RequestParam int pseq, @RequestParam int rum,@RequestParam String nickname,@RequestParam String content)throws Exception{
+//
+//        Post post = new Post();
+//        post.setPseq(pseq);
+//        post.setRum(rum);
+//        post.setNickname(nickname);
+//        post.setContent(content);
+//
+//        boolean result = postService.postupdate(files,post);
+//
+//        if(!result){
+//            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]suggestionPostUpdate"), HttpStatus.OK);
+//        }
+//        else{
+//            int pseqNum = postDao.selectpseq();
+//            Post data = postDao.selectpostone(pseqNum);
+//            data.setImageList(postDao.selectImage(pseqNum));
+//            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]suggestionPost",data), HttpStatus.OK);
+//        }
+//
+//    }
+
 
 
 

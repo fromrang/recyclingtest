@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,8 +81,8 @@ public class PostService {
     // 사진과 Post 정보를 저장.
     public boolean postinsert(List<MultipartFile> files, Post post) throws Exception{
 
-        String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
-        //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+       // String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
 
         List<String> imageName = new ArrayList<>();
         int buff = 0;
@@ -96,7 +97,8 @@ public class PostService {
 
                 for(MultipartFile file : files){
                     // 파일 이름 중복 없애기 위한 코드 (날짜시간+랜덤수)
-                    String fileId = (new Date().getTime())+ "" + (new Random().ints(1000,9999).findAny().getAsInt());
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
+                    String fileId = (sdf1.format(System.currentTimeMillis())+""+(new Random().ints(1000,9999).findAny().getAsInt()));
                     String orignalfileName = file.getOriginalFilename(); // 파일이름
                     if(!orignalfileName.equals("")){
                         String fileExtension = orignalfileName.substring(orignalfileName.lastIndexOf(".")+1); // .확장명
@@ -129,52 +131,45 @@ public class PostService {
 
     }
 
+
+
     // 사진과 Post- Content 수정 및 삭제.
-    public boolean postupdate(List<MultipartFile> files, Post post) throws Exception{
+    public boolean postupdate(List<MultipartFile> files, Post post,List<String> images) throws Exception{
 
         List<Image> imageName = new ArrayList<>();
         List<String> basicName = new ArrayList<>();
         List<String> DeleteName = new ArrayList<>();
         int check = 0;
 
-        //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
-        String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+        //String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
 
         // 해당 이미지들 불러오기.
         imageName = postDao.selectImage(post.getPseq());
 
-        // 업데이트 할 이미지들 비교. (basicName, UpdateName 분류)
+        // 업데이트 할 이미지들 비교.
         for(MultipartFile file : files){
             String orignalfileName = file.getOriginalFilename();
 
             if(!orignalfileName.equals("")){
-                // 기존 이미지 파일과 들어온 이미지 파일명을 비교해서 있으면 기존 있는 데이터 리스트에 분류.
-                for(int i  = 0; i < imageName.size(); i++){
-                    if(imageName.get(i).getImage_name().equals(orignalfileName)) {
-                        basicName.add(imageName.get(i).getImage_name());
-                        check = 1;
-                    }
-                }
-                if(check == 0){ // 새로 저장 할 이미지 저장.
-                    String fileId = (new Date().getTime())+ "" + (new Random().ints(1000,9999).findAny().getAsInt());
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
+                    String fileId = (sdf1.format(System.currentTimeMillis())+""+(new Random().ints(1000,9999).findAny().getAsInt()));
                     String fileExtension = orignalfileName.substring(orignalfileName.lastIndexOf(".")+1);
                     String finalName = fileId+"."+fileExtension;
                     File dest = new File(UPDATE_PATH+fileId + "." + fileExtension);
                     file.transferTo(dest);
                     int result = postDao.insertimage(finalName,post.getPseq());
                     if(result == 0) return false;
-                }
-                else check = 0;
             }
         }
 
         check = 0;
 
-
+        // 해당 post에 넣은 사진이 있는경우
         if(imageName.size() != 0){
-
-            // 기존 데이터가 없을 시.
-            if(basicName.size() == 0){
+            // images
+            // 기존 이미지 이름이 없을 시.
+            if(images.size() == 0){
                 for(int i = 0; i < imageName.size(); i++){
                     File file = new File(UPDATE_PATH + File.separator + imageName.get(i).getImage_name());
                     boolean result = file.delete();
@@ -182,11 +177,11 @@ public class PostService {
                     if(buff == 0) return false;
                 }
             }
-            else{
+            else{ // 기존 이미지 이름이 있을 시.
                 // 삭제할 이미지 찾기.
                 for(int i = 0 ; i < imageName.size(); i++){
-                    for(int j = 0; j < basicName.size(); j++){
-                        if(imageName.get(i).getImage_name().equals(basicName.get(j))){
+                    for(int j = 0; j < images.size(); j++){
+                        if(imageName.get(i).getImage_name().equals(images.get(j))){
                             check = 1;
                         }
                     }
@@ -209,9 +204,6 @@ public class PostService {
 
         }
 
-
-
-
         // post 업데이트!
         int result = postDao.updatepost(post.getContent(),post.getPseq());
         if(result == 0)  return false;
@@ -220,3 +212,101 @@ public class PostService {
     }
 
 }
+
+
+
+
+//=================
+
+//    // 사진과 Post- Content 수정 및 삭제.
+//    public boolean postupdate(List<MultipartFile> files, Post post) throws Exception{
+//
+//        List<Image> imageName = new ArrayList<>();
+//        List<String> basicName = new ArrayList<>();
+//        List<String> DeleteName = new ArrayList<>();
+//        int check = 0;
+//
+//        String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+//        //String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+//
+//        // 해당 이미지들 불러오기.
+//        imageName = postDao.selectImage(post.getPseq());
+//
+//        // 업데이트 할 이미지들 비교. (basicName, UpdateName 분류)
+//        for(MultipartFile file : files){
+//            String orignalfileName = file.getOriginalFilename();
+//
+//            if(!orignalfileName.equals("")){
+//                // 기존 이미지 파일과 들어온 이미지 파일명을 비교해서 있으면 기존 있는 데이터 리스트에 분류.
+//                for(int i  = 0; i < imageName.size(); i++){
+//                    if(imageName.get(i).getImage_name().equals(orignalfileName)) {
+//                        basicName.add(imageName.get(i).getImage_name());
+//                        check = 1;
+//                    }
+//                }
+//                if(check == 0){ // 새로 저장 할 이미지 저장.
+//                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
+//                    String fileId = (sdf1.format(System.currentTimeMillis())+""+(new Random().ints(1000,9999).findAny().getAsInt()));
+//                    String fileExtension = orignalfileName.substring(orignalfileName.lastIndexOf(".")+1);
+//                    String finalName = fileId+"."+fileExtension;
+//                    File dest = new File(UPDATE_PATH+fileId + "." + fileExtension);
+//                    file.transferTo(dest);
+//                    int result = postDao.insertimage(finalName,post.getPseq());
+//                    if(result == 0) return false;
+//                }
+//                else check = 0;
+//            }
+//        }
+//
+//        check = 0;
+//
+//
+//        if(imageName.size() != 0){
+//
+//            // 기존 데이터가 없을 시.
+//            if(basicName.size() == 0){
+//                for(int i = 0; i < imageName.size(); i++){
+//                    File file = new File(UPDATE_PATH + File.separator + imageName.get(i).getImage_name());
+//                    boolean result = file.delete();
+//                    int buff = postDao.deleteimage(post.getPseq(),imageName.get(i).getImage_name());
+//                    if(buff == 0) return false;
+//                }
+//            }
+//            else{
+//                // 삭제할 이미지 찾기.
+//                for(int i = 0 ; i < imageName.size(); i++){
+//                    for(int j = 0; j < basicName.size(); j++){
+//                        if(imageName.get(i).getImage_name().equals(basicName.get(j))){
+//                            check = 1;
+//                        }
+//                    }
+//                    if(check == 0){
+//                        DeleteName.add(imageName.get(i).getImage_name());
+//                    }
+//                    else check = 0;
+//                }
+//
+//                // 데이터 삭제하기
+//                if(DeleteName.size() != 0){
+//                    for(int i = 0; i < DeleteName.size(); i++){
+//                        File file = new File(UPDATE_PATH + File.separator + DeleteName.get(i));
+//                        boolean result = file.delete();
+//                        int buff = postDao.deleteimage(post.getPseq(),DeleteName.get(i));
+//                        if(buff == 0) return false;
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//
+//
+//
+//        // post 업데이트!
+//        int result = postDao.updatepost(post.getContent(),post.getPseq());
+//        if(result == 0)  return false;
+//
+//        return true;
+//    }
+//
+//}
