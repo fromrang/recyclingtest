@@ -105,4 +105,31 @@ public class RoomService {
     }
     */
 
+    public boolean joinRoom(Member member) {
+        try {
+            List<Room> roomList = roomDao.selectRoom(member.getRum());
+            Member members = roomDao.nicknameCheck(member.getNickname() , member.getRum());
+            if (roomList.get(0).getCount() >= roomList.get(0).getMaxnum()) {
+                return false;
+            } else {
+
+                if(members != null){
+                    return false;
+                }else {
+                    int result = roomDao.joinRoom(member.getRum());
+                    roomDao.insertMember(member.getRum(), member.getNickname());
+                    if (result < 1) {
+                        return false;
+                    }
+                    return true;
+
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
