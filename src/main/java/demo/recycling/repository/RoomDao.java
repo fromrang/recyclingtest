@@ -125,4 +125,23 @@ public class RoomDao {
         }
     }
 
+    public List<Room> selectTag() throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            return sqlSession.getMapper(RoomMapper.class).selectTagList();
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public List<Room> selectTitle(String keyword) throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            return sqlSession.getMapper(RoomMapper.class).selectTitle(keyword);
+        }finally {
+            sqlSession.close();
+        }
+
+    }
+
 }

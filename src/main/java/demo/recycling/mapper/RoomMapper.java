@@ -38,6 +38,11 @@ public interface RoomMapper {
     // 닉네임 체크
     @Select("Select * from member where nickname=#{nickname} and rum= #{rum}")
     public Member nicknameCheck(String nickname, int rum) throws Exception;
-
+    // Tag
+    @Select("SELECT rum,title, rm_type, count, maxnum,reg_date,(SELECT tag_name FROM tag WHERE tag.rum= room.rum) AS tag FROM room")
+    public List<Room> selectTagList() throws Exception;
+    // Title
+    @Select("SELECT rum,title, rm_type, count, maxnum,reg_date,(SELECT tag_name FROM tag WHERE tag.rum= room.rum) as tag FROM room WHERE title IN (SELECT title FROM member WHERE title LIKE CONCAT('%',#{keyword},'%'))")
+    public List<Room> selectTitle(String keyword) throws Exception;
 
 }
