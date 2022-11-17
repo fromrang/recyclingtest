@@ -60,7 +60,7 @@ public class RoomController {
         }
     }
 
-    @GetMapping("/searchRoom")
+    @GetMapping("/searchroom")
     public ResponseEntity searchThing(@RequestParam String keyword) {
         List<Room> roomListAll = roomService.searchRoom(keyword);
         if (roomListAll.isEmpty()) {
