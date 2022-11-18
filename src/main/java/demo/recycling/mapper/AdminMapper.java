@@ -31,7 +31,7 @@ public interface AdminMapper {
     public int deleteAdmin(int aseq) throws Exception;   // 관리자 삭제
 
 
-    @Select("Select aseq,email,name,position,tel,authority,reg_date,status from admin") //보안 문제 비밀번호 제외
+    @Select("Select aseq,email,name,position,tel,authority,reg_date,status from admin where status = 0") //보안 문제 비밀번호 제외
     public List<Admin> selectAdminList() throws Exception; // 관리자 목록 조회
 
 
