@@ -103,7 +103,7 @@ public class AdminController {
 
     // 관리자 리스트 조회
     @GetMapping("/admin")
-    public ResponseEntity selectAdminList(){
+    public ResponseEntity selectAdminList(String status){
         List<Admin> adminList = adminService.selectAdminList();
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]selectAdminList", adminList), HttpStatus.OK);
     }
