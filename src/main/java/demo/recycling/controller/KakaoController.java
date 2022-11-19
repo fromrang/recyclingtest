@@ -69,4 +69,29 @@ public class KakaoController {
 
     }
 
+    @GetMapping("user/login/kakao")
+    public ResponseEntity loginkakao(@RequestParam String token) throws Exception{
+        String kakaoUniqueNo = kakaoMemberService.getKakaoUniqueNo(token);
+        if (kakaoUniqueNo != null && !kakaoUniqueNo.equals("")) {
+            /**
+             TO DO : 리턴받은 kakaoUniqueNo에 해당하는 회원정보 조회 후 로그인 처리 후 메인으로 이동
+             */
+            String nickname = userService.userExistCheck(kakaoUniqueNo);
+            if(nickname.equals("false")){ // 닉네임 추가 창으로 넘어가기
+                return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[Fail]not exist user", kakaoUniqueNo), HttpStatus.OK);
+            }
+
+            String JWTtoken = program.createToken(nickname);
+            HashMap<String, String> data = new HashMap<>();
+            data.put("nickname", nickname);
+            data.put("email", kakaoUniqueNo);
+            data.put("jwt token", JWTtoken);
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]loginkakao", data), HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]loginkakao"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }
