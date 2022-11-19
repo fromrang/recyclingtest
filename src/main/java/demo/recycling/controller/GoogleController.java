@@ -127,7 +127,7 @@ public class GoogleController {
                 return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[Fail]not exist user", userInfoDto.getEmail()), HttpStatus.OK);
             }
 
-            String JWTtoken = program.createToken(nickname);
+            String JWTtoken = program.createToken(userInfoDto.getEmail());
             HashMap<String, String> data = new HashMap<>();
             data.put("nickname", nickname);
             data.put("email", userInfoDto.getEmail());

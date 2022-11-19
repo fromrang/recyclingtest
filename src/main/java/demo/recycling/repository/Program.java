@@ -22,6 +22,7 @@ public class Program {
 
     //String된 토큰을 복호화
     public Jws<Claims> getClaims(String jwt){
+        //System.out.println("!!!"+jwt);
         try{
             return Jwts.parser()
                     .setSigningKey(SECRET_KEY)

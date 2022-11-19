@@ -101,7 +101,7 @@ public class NaverController {
             return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[Fail]not exist user", userEmail), HttpStatus.OK);
         }
 
-        String JWTtoken = program.createToken(nickname);
+        String JWTtoken = program.createToken(userEmail);
         HashMap<String, String> data = new HashMap<>();
         data.put("nickname", nickname);
         data.put("email", userEmail);

@@ -82,7 +82,7 @@ public class KakaoController {
                 return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[Fail]not exist user", kakaoUniqueNo), HttpStatus.OK);
             }
 
-            String JWTtoken = program.createToken(nickname);
+            String JWTtoken = program.createToken(kakaoUniqueNo);
             HashMap<String, String> data = new HashMap<>();
             data.put("nickname", nickname);
             data.put("email", kakaoUniqueNo);
