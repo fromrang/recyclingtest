@@ -105,7 +105,7 @@ public class NaverController {
         HashMap<String, String> data = new HashMap<>();
         data.put("nickname", nickname);
         data.put("email", userEmail);
-        data.put("jwt token", token);
+        data.put("jwt token", JWTtoken);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]loginNaver", data), HttpStatus.OK);
 
     }
