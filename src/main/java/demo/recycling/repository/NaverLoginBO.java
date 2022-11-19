@@ -8,8 +8,14 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import demo.recycling.controller.NaverLoginApi;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -97,5 +103,26 @@ public class NaverLoginBO {
         oauthService.signRequest(oauthToken, request);
         Response response = request.send();
         return response.getBody();
+    }
+
+    public String getUserProfileNew(String oauthToken) throws IOException {
+
+        RestTemplate rt2 = new RestTemplate();
+        HttpHeaders headers2 = new HttpHeaders();
+
+        headers2.add("Authorization", "Bearer "+ oauthToken);
+        headers2.add("Content-type","application/x-www-form-urlencoded;charset=utf-8");
+
+        HttpEntity<MultiValueMap<String,String >> naverProfileRequest2= new HttpEntity<>(headers2);
+
+        ResponseEntity<String> response2 = rt2.exchange(
+                "https://openapi.naver.com/v1/nid/me",
+                HttpMethod.POST,
+                naverProfileRequest2,
+                String.class
+        );
+
+
+        return response2.getBody();
     }
 }

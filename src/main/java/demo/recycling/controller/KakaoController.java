@@ -69,8 +69,9 @@ public class KakaoController {
 
     }
 
-    @GetMapping("user/login/kakao")
+    @GetMapping("/user/login/kakao")
     public ResponseEntity loginkakao(@RequestParam String token) throws Exception{
+    //public ResponseEntity loginkakao(@RequestHeader("access_token") String token) throws Exception{
         String kakaoUniqueNo = kakaoMemberService.getKakaoUniqueNo(token);
         if (kakaoUniqueNo != null && !kakaoUniqueNo.equals("")) {
             /**

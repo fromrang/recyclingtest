@@ -14,9 +14,7 @@ import demo.recycling.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -83,6 +81,32 @@ public class NaverController {
         data.put("nickname", nickname);
         data.put("jwt token", token);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]oauthNaver", data), HttpStatus.OK);
+
+    }
+
+    @GetMapping("/user/login/naver")
+    public ResponseEntity loginNaver(@RequestHeader("access_token") String token) throws Exception{
+        String loginInfo = naverLoginBO.getUserProfileNew(token);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        NaverLoginDto naverLoginDto = objectMapper.readValue(loginInfo, new TypeReference<NaverLoginDto>() {});
+        HashMap resultMap = naverLoginDto.getResponse();
+
+        String userEmail = (String) resultMap.get("email");
+
+        String nickname = userService.userExistCheck(userEmail);
+        if(nickname.equals("false")){ // 닉네임 추가 창으로 넘어가기
+            return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[Fail]not exist user", userEmail), HttpStatus.OK);
+        }
+
+        String JWTtoken = program.createToken(nickname);
+        HashMap<String, String> data = new HashMap<>();
+        data.put("nickname", nickname);
+        data.put("email", userEmail);
+        data.put("jwt token", token);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]loginNaver", data), HttpStatus.OK);
 
     }
 }

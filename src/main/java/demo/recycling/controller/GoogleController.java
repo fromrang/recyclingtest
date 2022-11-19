@@ -10,10 +10,7 @@ import demo.recycling.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -114,5 +111,31 @@ public class GoogleController {
         return ResponseEntity.badRequest().body(null);
 
     }
+    @GetMapping("/user/login/google")
+    public ResponseEntity logingoogle(@RequestHeader("access_token") String token) throws Exception {
+        String requestUrl = UriComponentsBuilder.fromHttpUrl(googleAuthUrl + "/tokeninfo").queryParam("id_token", token).toUriString();
+        RestTemplate restTemplate = new RestTemplate();
+        String resultJson = restTemplate.getForObject(requestUrl, String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
+        if(resultJson != null) {
+            GoogleLoginDto userInfoDto = objectMapper.readValue(resultJson, new TypeReference<GoogleLoginDto>() {});
+            String nickname = userService.userExistCheck(userInfoDto.getEmail());
+            if(nickname.equals("false")){ // 닉네임 추가 창으로 넘어가기
+                return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[Fail]not exist user", userInfoDto.getEmail()), HttpStatus.OK);
+            }
+
+            String JWTtoken = program.createToken(nickname);
+            HashMap<String, String> data = new HashMap<>();
+            data.put("nickname", nickname);
+            data.put("email", userInfoDto.getEmail());
+            data.put("jwt token", JWTtoken);
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]logingoogle", data), HttpStatus.OK);
+        }
+        else {
+            throw new Exception("Google OAuth failed!");
+        }
+    }
 }
