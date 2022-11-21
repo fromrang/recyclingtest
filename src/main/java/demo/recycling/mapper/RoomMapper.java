@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface RoomMapper {
 
-    @Insert("INSERT INTO room(userEmail,title,password,rm_type,count,maxnum) VALUES(#{userEmail},#{title},#{password},#{rm_type},#{count},#{maxnum})")
+    @Insert("INSERT INTO room(userEmail,title,password,rm_type,maxnum) VALUES(#{userEmail},#{title},#{password},#{rm_type},#{maxnum})")
     public int insertRoom(Room room) throws Exception;
     // 가장 최근에 입장한 방 번호 조회
     @Select("SELECT rum FROM room WHERE userEmail=#{userEmail} GROUP BY reg_date ORDER BY reg_date DESC Limit 1")
