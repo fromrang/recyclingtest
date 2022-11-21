@@ -28,6 +28,9 @@ public class RoomService {
         try{
             //System.out.println("!!!"+room.getNickname());
             String email = roomDao.selectUserInfo(room.getNickname());
+            if(email == null){
+                return -1;
+            }
             String tagString = "";
             if(room.getTags() != null || !room.getTags().isEmpty()) {
                 tagString = String.join("$", room.getTags());

@@ -34,6 +34,9 @@ public class RoomDao {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
             Users users = sqlSession.getMapper(UserMapper.class).selectNickname(nickname);
+            if(users == null){
+                return null;
+            }
             //System.out.println(users.getUserEmail());
             return users.getUserEmail(); // User의 Email정보 추출
 
