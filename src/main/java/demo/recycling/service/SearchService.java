@@ -22,12 +22,19 @@ public class SearchService {
         List<SearchDetail> datas = new ArrayList<>();
 
         try {
-            datas = searchDao.selectDetailSearch(data);
 
             //겁색결과가 없을 시에 아래의 문구 표시
-            if(datas.size()==0){
-                Search.setNo(999);
-                Search.setD_name("미등록 쓰레기, 요기담아요에 요청을 남겨주시면 빠르게 반영하겠습니다!");
+            if(!"".equals(data)){
+                datas = searchDao.selectDetailSearch(data);
+
+                if(datas.size()==0){
+                    Search.setNo(999);
+                    Search.setD_name("미등록 쓰레기, 요기담아요에 요청을 남겨주시면 빠르게 반영하겠습니다!");
+                    datas.add(Search);
+                }
+            }else {
+                Search.setNo(1);
+                Search.setD_name("");
                 datas.add(Search);
             }
         } catch (Exception e) {
@@ -36,6 +43,5 @@ public class SearchService {
 
         return datas;
     }
-
 
 }
