@@ -45,4 +45,8 @@ public interface RoomMapper {
     @Select("SELECT rum,title, rm_type, count, maxnum,reg_date,(SELECT tag_name FROM tag WHERE tag.rum= room.rum) as tag FROM room WHERE title IN (SELECT title FROM member WHERE title LIKE CONCAT('%',#{keyword},'%'))")
     public List<Room> selectTitle(String keyword) throws Exception;
 
+    //해당 게시물의 룸 이름
+    @Select("SELECT title from room where rum=#{rum}")
+    public String postRumTitle (int rum) throws Exception;
+
 }

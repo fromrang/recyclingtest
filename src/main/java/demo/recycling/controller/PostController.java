@@ -25,7 +25,8 @@ public class PostController {
 
     @GetMapping("/post/{rum}")
     public ResponseEntity selectPost(@PathVariable int rum){
-        List<Post> postList = postService.selectPost(rum);
+//        List<Post> postList = postService.selectPost(rum);
+        HashMap<String,Object> postList= postService.selectPost(rum);
         //System.out.println(postList);
         if(postList.isEmpty()){
             return new ResponseEntity(DefaultRes.res(StatusCode.NO_CONTENT, "[SUCCESS]selectPostList", postList), HttpStatus.OK);
