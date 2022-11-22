@@ -146,5 +146,12 @@ public class RoomDao {
         }
 
     }
+    public String postRumTitle (int rum) throws Exception{
+        SqlSession sqlSession=sqlSessionFactory.openSession();
+        try{
+            return sqlSession.getMapper(RoomMapper.class).postRumTitle(rum);
+        }finally {
 
+        }
+    }
 }

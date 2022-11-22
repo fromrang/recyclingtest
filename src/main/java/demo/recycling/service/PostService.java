@@ -2,17 +2,16 @@ package demo.recycling.service;
 
 import demo.recycling.dto.Image;
 import demo.recycling.dto.Post;
+import demo.recycling.dto.Room;
 import demo.recycling.repository.PostDao;
+import demo.recycling.repository.RoomDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class PostService {
@@ -21,18 +20,30 @@ public class PostService {
     @Autowired
     PostDao postDao;
 
-    public List<Post> selectPost(int rum){
+    @Autowired
+    RoomDao roomDao;
+
+    @Autowired
+    Room room;
+
+    public HashMap<String,Object> selectPost(int rum){
         try{
-            List<Post> postAll = postDao.selectPost(rum);
-            for(Post postList:postAll){
+            HashMap<String,Object> postAll=new HashMap<>();
+            List<Post> postLists = postDao.selectPost(rum);
+            for(Post postList:postLists){
                 postList.setImageList(postDao.selectImage(postList.getPseq()));
             }
+            String title= roomDao.postRumTitle(rum);
+            postAll.put("content",postLists);
+            postAll.put("title",title);
+            System.out.println(title);
             return postAll;
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
+
 
     public int roomEnter(int rum){
         try {
