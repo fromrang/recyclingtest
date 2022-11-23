@@ -6,6 +6,8 @@ import demo.recycling.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,7 +58,7 @@ public class PostController {
         }
     }
 
-    @DeleteMapping("/postdelete/{pseq}")
+    @DeleteMapping("/post/{pseq}")
     public ResponseEntity deletePost(@PathVariable int pseq){
         boolean result = postService.deletePost(pseq);
         if(!result){
@@ -66,15 +68,21 @@ public class PostController {
         }
     }
 
-    @PostMapping("/postinsert")
-    public ResponseEntity postinsert(@RequestParam List<MultipartFile> files,
+    @PostMapping("/post")
+    public ResponseEntity postinsert(@RequestParam(value = "files",required = false) List<MultipartFile> files ,
                                      @RequestParam int rum,@RequestParam String nickname,@RequestParam String content) throws Exception{
+        boolean result;
         Post post = new Post();
         post.setRum(rum);
         post.setNickname(nickname);
         post.setContent(content);
 
-        boolean result = postService.postinsert(files,post);
+        if(StringUtils.isEmpty(files)){
+            result = postService.insertPost(post);
+        }
+        else{
+            result = postService.insertPost(files,post);
+        }
 
         if(!result){
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]insertPost"), HttpStatus.OK);
@@ -89,17 +97,35 @@ public class PostController {
     }
 
 
-    @PostMapping("postupdate")
-    public ResponseEntity postupdate(@RequestParam List<MultipartFile> files,
-                                     @RequestParam int pseq, @RequestParam int rum,@RequestParam String nickname,@RequestParam String content,@RequestParam List<String> images)throws Exception{
+    @PostMapping("/modification")
+    public ResponseEntity postupdate(@RequestParam(value = "files",required = false) List<MultipartFile> files,
+                                     @RequestParam int pseq, @RequestParam int rum,@RequestParam String nickname,@RequestParam String content,@RequestParam(value = "images",required = false) List<String> images)throws Exception{
 
+        boolean result;
         Post post = new Post();
         post.setPseq(pseq);
         post.setRum(rum);
         post.setNickname(nickname);
         post.setContent(content);
 
-        boolean result = postService.postupdate(files,post,images);
+        // 추가 파일이 없을 경우
+        if(StringUtils.isEmpty(files)){
+            if(StringUtils.isEmpty(images)){ // 추가 파일이 없으면서 삭제 이미지가 없을 경우
+                result = postService.postupdate(post);
+            }// 추가 파일이 없으면서 삭제 이미지가 있을 경우
+            else{
+                result = postService.postupdate(post,images);
+            }
+        }
+        else{// 추가 파일이 있고 삭제 이미지가 없을 경우
+            if(StringUtils.isEmpty(images)){
+                result = postService.postupdate(files,post);
+            }// 추가 파일이 있으면서 삭제 이미지도 있을 경우
+            else{
+                result = postService.postupdate(files,post,images);
+            }
+        }
+
 
         if(!result){
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]updatePost"), HttpStatus.OK);
