@@ -30,8 +30,16 @@ public class PostService {
         try{
             HashMap<String,Object> postAll=new HashMap<>();
             List<Post> postLists = postDao.selectPost(rum);
+
             for(Post postList:postLists){
-                postList.setImageList(postDao.selectImage(postList.getPseq()));
+                List<Image> imageList=new ArrayList<>();
+                List<Image> imageFiter=postDao.selectImage(postList.getPseq());
+                for(int i=0;i<imageFiter.size();i++){
+                    String image="/home/rang/yogidamayo/app/WEB-INF/classes/static/image"+ imageFiter.get(i).getImage_name();
+                    imageFiter.get(i).setImage_name(image);
+                    imageList.add(imageFiter.get(i));
+                }
+                postList.setImageList(imageList);
             }
             String title= roomDao.postRumTitle(rum);
             postAll.put("content",postLists);
