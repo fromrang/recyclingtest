@@ -14,4 +14,6 @@ public class Mail {
     private String title;
     private String content;
     private Date reg_date;
+
+    private int sseq;
 }
