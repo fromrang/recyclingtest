@@ -40,17 +40,17 @@ public class AdminService {
         }
     }
 
-    public boolean loginEmailPw(String email, String pw) {
+    public String loginEmailPw(String email, String pw) {
         try {
             Admin admin = adminDao.loginEmailPw(email, pw);
             if (admin != null) {
-                return true;
+                return admin.getAuthority();
             }else {
-                return false;
+                return null;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 

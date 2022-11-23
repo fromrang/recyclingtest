@@ -26,6 +26,15 @@ public class SuggestionService {
             return null;
         }
     }
+
+    public Suggestion suggestionOneService(int sseq){
+        try{
+            return suggestionDao.selectSuggestionOneDao(sseq);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     public boolean insertSuggestion(Suggestion suggestion){
         try {
             suggestionDao.insertSuggestion(suggestion);

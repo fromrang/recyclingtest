@@ -2,6 +2,7 @@ package demo.recycling.controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 
 import demo.recycling.dto.Notice;
@@ -63,13 +64,18 @@ public class AdminController {
     public ResponseEntity loginToken(@RequestBody Admin admin) {
         try {
             admin.setPw(encrypt(admin.getPw()));
-            boolean login = adminService.loginEmailPw(admin.getEmail(), admin.getPw());
-            if (!login) {
+            String auth = adminService.loginEmailPw(admin.getEmail(), admin.getPw());
+            if (auth == null) {
                 return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[Fail]not exist user"), HttpStatus.OK);
             } else {
+
                 String token = program.createToken(admin.getEmail());
+                HashMap<String, String> data = new HashMap<>();
+                data.put("token", token);
+                data.put("authority", auth);
+
                 //loginUser.setPassword(null);
-                return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]login", token), HttpStatus.OK);
+                return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]login", data), HttpStatus.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();
