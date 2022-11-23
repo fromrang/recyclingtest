@@ -37,7 +37,7 @@ public class MapService {
                     WasteBattery.setName(linArr[0]);
                     WasteBattery.setAdderess(linArr[1]);
                     WasteBattery.setNumber(linArr[2]);
-                    System.out.println(count+"  :  "+linArr[1]);
+                    //System.out.println(count+"  :  "+linArr[1]);
                     WasteBattery.setLat(Double.valueOf(linArr[3]));
                     WasteBattery.setLon(Double.valueOf(linArr[4]));
                     WasteBattery.setCode(1);
@@ -83,11 +83,11 @@ public class MapService {
                 RecylingMap wastebasket=new RecylingMap();
                 List<String> aLine = new ArrayList<String>();
                 String[] linArr = line.split(",");
-                System.out.println(count+"번째 , 이름 : "+linArr[0]);
-                System.out.println(count+"번째 , 주소 : "+linArr[1]);
-                System.out.println(count+"번째 , 전화번호 : "+linArr[2]);
-                System.out.println(count+"번째 , lat : "+linArr[3]);
-                System.out.println(count+"번째 , long : "+linArr[4]);
+//                System.out.println(count+"번째 , 이름 : "+linArr[0]);
+//                System.out.println(count+"번째 , 주소 : "+linArr[1]);
+//                System.out.println(count+"번째 , 전화번호 : "+linArr[2]);
+//                System.out.println(count+"번째 , lat : "+linArr[3]);
+//                System.out.println(count+"번째 , long : "+linArr[4]);
                 if(!linArr[0].equals("name")&&!linArr[1].equals("adderess")&&!linArr[2].equals("number")&& !linArr[3].equals("lat")&&!linArr[4].equals("long")){
                     wastebasket.setName(linArr[0]);
                     wastebasket.setAdderess(linArr[1]);
@@ -139,7 +139,7 @@ public class MapService {
                 List<String> aLine = new ArrayList<String>();
                 String[] linArr = line.split(",");
                 if(!linArr[0].equals("name")&&!linArr[1].equals("adderess")&&!linArr[2].equals("number")&&!linArr[3].equals("lat")&&!linArr[4].equals("long")){
-                    System.out.println(count+"  :  "+linArr[1]);
+                    //System.out.println(count+"  :  "+linArr[1]);
                     WasteCenter.setName(linArr[0]);
                     WasteCenter.setAdderess(linArr[1]);
                     WasteCenter.setNumber(linArr[2]);
