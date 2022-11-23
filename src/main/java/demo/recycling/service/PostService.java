@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class PostService {
+public class    PostService {
     @Autowired
     Post post;
     @Autowired

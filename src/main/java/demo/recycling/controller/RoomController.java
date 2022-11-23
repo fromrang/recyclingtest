@@ -27,7 +27,7 @@ public class RoomController {
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]parameter error"), HttpStatus.BAD_REQUEST);
         List<Room> myroomlist = roomService.selectMyRoom(nickname);
         if (myroomlist.isEmpty()) {
-            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomMyview", myroomlist), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[FAIL]roomMyview", myroomlist), HttpStatus.OK);
         }
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomMyview", myroomlist), HttpStatus.OK);
     }
@@ -53,7 +53,7 @@ public class RoomController {
     @PostMapping("/room")
     public ResponseEntity joinRoom(@RequestBody Member member) throws NoSuchAlgorithmException {
         String result = roomService.joinRoom(member);
-        if (result.equals("existUser")) {
+        if (result.equals("existsUser")) {
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]joinRoom", "existsUser"), HttpStatus.OK);
         } else if (result.equals("countOver")) {
             return new ResponseEntity(DefaultRes.res(StatusCode.COUNT_OVER, "[FAIL]joinRoom", "countOver"), HttpStatus.BAD_REQUEST);
@@ -66,16 +66,13 @@ public class RoomController {
 
     @PutMapping("/room")
     public ResponseEntity insertRoomMember(@RequestBody Member member) throws NoSuchAlgorithmException{
-        try {
-            boolean result = roomService.insertRoomMember(member);
-            if (!result){
-                return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]insertRoomMember"), HttpStatus.BAD_REQUEST);
-            }else{
-                return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]insertRoomMember", member), HttpStatus.OK);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        String result = roomService.insertRoomMember(member);
+        if (result.equals("existsUser")) {
+            return new ResponseEntity(DefaultRes.res(StatusCode.NOT_EXIST, "[FAIL]insertRoomMember", "existsUser"), HttpStatus.BAD_REQUEST);
+        } else if (result.equals("countOver")) {
+            return new ResponseEntity(DefaultRes.res(StatusCode.COUNT_OVER, "[FAIL]insertRoomMember", "countOver"), HttpStatus.BAD_REQUEST);
+        } else{
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]insertRoomMember", member), HttpStatus.OK);
         }
     }
 
