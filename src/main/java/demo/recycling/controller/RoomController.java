@@ -27,7 +27,7 @@ public class RoomController {
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]parameter error"), HttpStatus.BAD_REQUEST);
         List<Room> myroomlist = roomService.selectMyRoom(nickname);
         if (myroomlist.isEmpty()) {
-            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[FAIL]roomMyview", myroomlist), HttpStatus.OK);
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomMyview", myroomlist), HttpStatus.OK);
         }
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]roomMyview", myroomlist), HttpStatus.OK);
     }

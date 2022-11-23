@@ -177,7 +177,7 @@ public class RoomService {
             String tagName = "";
             for (int i = 0; i < rooms.size(); i++) {
                 if ((tagName = rooms.get(i).getTag()) != null) {
-                    System.out.println(rooms.get(i).getTag());
+                    //System.out.println(rooms.get(i).getTag());
                     //String[] tag_name = StringUtils.split(room.getTag(), "\\$");
                     //List<String> tags = Arrays.asList(tag_name);
                     List<String> tags = Arrays.stream(tagName.split("\\$")).toList();
@@ -224,8 +224,8 @@ public class RoomService {
                         tagList.get(i).setTags(tags);
                     }
                 }
-                System.out.println(tagList.size());
-                System.out.println(titleList.size());
+                //System.out.println(tagList.size());
+                //System.out.println(titleList.size());
                 //두개를 비교하여 중복 된 방을 찾아서 list에 담기 (rum넘버로 찾음)
                 for (int i = 0; i < tagList.size(); i++) {
                     for (int j = 0; j < titleList.size(); j++) {

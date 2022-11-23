@@ -44,7 +44,7 @@ public class PostService {
             String title= roomDao.postRumTitle(rum);
             postAll.put("content",postLists);
             postAll.put("title",title);
-            System.out.println(title);
+            //System.out.println(title);
             return postAll;
         }catch (Exception e){
             e.printStackTrace();
