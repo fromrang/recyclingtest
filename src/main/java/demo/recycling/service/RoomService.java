@@ -118,7 +118,7 @@ public class RoomService {
             List<Room> roomList = roomDao.selectRoom(member.getRum());
             Member members = roomDao.nicknameCheck(member.getNickname(), member.getRum());
             if (members != null) {
-                return "existUser";
+                return "existsUser";
             } else {
                 if (roomList.get(0).getCount() >= roomList.get(0).getMaxnum()) {
                     return "countOver";
@@ -131,43 +131,41 @@ public class RoomService {
             return "false";
         }
     }
-//        try {
-//            List<Room> roomList = roomDao.selectRoom(member.getRum());    // post room
-//            Member members = roomDao.nicknameCheck(member.getNickname() , member.getRum());
-//            if (roomList.get(0).getCount() >= roomList.get(0).getMaxnum()) {
-//                return "countOver";
-//            } else {
-//
-//                if(members != null){         // 이게 제일 우선
-//                    //System.out.println("!!!!");
-//                    return "existsUser";
-//                }else {
-//                    int result = roomDao.joinRoom(member.getRum());           // put room
-//                    roomDao.insertMember(member.getRum(), member.getNickname());
-//                    if (result < 1) {
-//                        return "false";
-//                    }
-//                    return "true";
-//
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "false";
-//        }
-//    }
+    public String insertRoomMember(Member member){
+        try {
+            List<Room> roomList = roomDao.selectRoom(member.getRum());
+            Member members = roomDao.nicknameCheck(member.getNickname() , member.getRum());
+            if (members != null) {
+                return "existsUser";
+            } else {
+                if(roomList.get(0).getCount() >= roomList.get(0).getMaxnum()){
+                    return "countOver";
+                }else {
+                    int result = roomDao.joinRoom(member.getRum());
+                    roomDao.insertMember(member.getRum(), member.getNickname());
+                    if (result < 1) {
+                        return "false";
+                    }
+                    return "true";
+                }
+            }
 
-    public boolean insertRoomMember(Member member){
-        try{
-            roomDao.insertMember(member.getRum(), member.getNickname());
-            roomDao.joinRoom(member.getRum());
-            return true;
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return "false";
         }
     }
+
+//    public boolean insertRoomMember(Member member){
+//        try{
+//            roomDao.insertMember(member.getRum(), member.getNickname());
+//            roomDao.joinRoom(member.getRum());
+//            return true;
+//        }catch(Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
     // keyword에 맞는 TagList 추출
     public List<Room> selectTag(String keyword) {

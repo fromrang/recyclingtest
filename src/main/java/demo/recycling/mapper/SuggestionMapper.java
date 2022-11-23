@@ -18,7 +18,7 @@ public interface SuggestionMapper {
     @Insert("insert into suggestion(email, title, content) values(#{email}, #{title}, #{content})")
     public int insertSuggestion(Suggestion suggestion) throws Exception;
     
-    //문의하기 삭제
+    //문의하기 답변완료
     @Update("update suggestion set status='1' where sseq=#{sseq}")
     public int updateSuggestionStatus(int sseq) throws Exception;
 
