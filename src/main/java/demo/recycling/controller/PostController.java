@@ -23,6 +23,7 @@ public class PostController {
     @Autowired
     PostService postService;
 
+    //게시글 보기
     @GetMapping("/post/{rum}")
     public ResponseEntity selectPost(@PathVariable int rum){
 //        List<Post> postList = postService.selectPost(rum);
@@ -34,7 +35,7 @@ public class PostController {
             return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]selectPostList",postList), HttpStatus.OK);
         }
     }
-
+    //비밀방 체크
     @GetMapping("/entrance/{rum}")
     public ResponseEntity roomEnter(@PathVariable int rum){
         int roomType = postService.roomEnter(rum);
