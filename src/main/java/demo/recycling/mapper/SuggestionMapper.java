@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface SuggestionMapper {
 
-    @Select("select * from suggestion where status='0'")
+    @Select("select * from suggestion")
     public List<Suggestion> selectSuggestion() throws Exception;
 
     @Insert("insert into suggestion(email, title, content) values(#{email}, #{title}, #{content})")
@@ -21,6 +21,10 @@ public interface SuggestionMapper {
     //문의하기 삭제
     @Update("update suggestion set status='1' where sseq=#{sseq}")
     public int updateSuggestionStatus(int sseq) throws Exception;
+
+    //문의하기 하나만 보기
+    @Select("select * from suggestion where sseq=#{sseq}" )
+    public Suggestion selectSuggestionOne(int sseq) throws Exception;
 
     @Select("select * from notice where status='0'")
     public List<Notice> selectNoticeAll() throws Exception;

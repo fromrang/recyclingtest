@@ -21,7 +21,7 @@ public interface AdminMapper {
     public Admin emailcheck(String email) throws Exception;    // 이메일 중복체크
 
 
-    @Select("Select * from admin where email=#{email} and pw = #{pw}")
+    @Select("Select email, name, position, authority, status from admin where email=#{email} and pw = #{pw}")
     public Admin loginEmailPw(String email, String pw) throws Exception;   // 로그인
 
     @Update("Update admin set pw=#{pw},name=#{name},position=#{position},tel=#{tel},authority=#{authority} where aseq=#{aseq}")

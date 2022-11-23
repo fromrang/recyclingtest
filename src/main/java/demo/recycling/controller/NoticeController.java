@@ -16,12 +16,22 @@ public class NoticeController {
     SuggestionService suggestionService;
 
 
-    //건의하기 글보기
+    //문의하기 글보기
     @GetMapping("/suggestion")
     public ResponseEntity suggestionView(){
         List<Suggestion> suggestions = suggestionService.allSuggestion();
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]suggestionView", suggestions), HttpStatus.OK);
 
+    }
+
+    //문의하기 글 하나 보기
+    @GetMapping("suggestion/{sseq}")
+    public ResponseEntity seggestionOneView(@PathVariable int sseq){
+        Suggestion suggestion = suggestionService.suggestionOneService(sseq);
+        if(suggestion == null){
+            return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[FAIL]seggestionOneView"), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "[SUCCESS]seggestionOneView",suggestion),HttpStatus.OK);
     }
     //건의하기 글쓰기
     @PostMapping("/suggestion")

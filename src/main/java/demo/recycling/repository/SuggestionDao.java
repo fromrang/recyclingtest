@@ -24,6 +24,14 @@ public class SuggestionDao {
             sqlSession.close();
         }
     }
+    public Suggestion selectSuggestionOneDao(int sseq) throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            return sqlSession.getMapper(SuggestionMapper.class).selectSuggestionOne(sseq);
+        }finally{
+            sqlSession.close();
+        }
+    }
     public int insertSuggestion(Suggestion suggestion) throws Exception {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
