@@ -151,7 +151,7 @@ public class RoomDao {
         try{
             return sqlSession.getMapper(RoomMapper.class).postRumTitle(rum);
         }finally {
-
+            sqlSession.close();
         }
     }
 }
