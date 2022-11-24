@@ -8,7 +8,7 @@ import java.util.Date;
 @Repository
 public class Program {
     private static String SECRET_KEY = "secret";
-    private static long tokenValidMilisecond = 1000L* 60 * 60;
+    private static long tokenValidMilisecond = 1000L* 60 * 60 * 6;
 
     //토큰 생성
     public String createToken(String key){

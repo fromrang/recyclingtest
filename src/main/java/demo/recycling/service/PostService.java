@@ -35,7 +35,7 @@ public class    PostService {
                 List<Image> imageList=new ArrayList<>();
                 List<Image> imageFiter=postDao.selectImage(postList.getPseq());
                 for(int i=0;i<imageFiter.size();i++){
-                    String image="/home/rang/yogidamayo/app/WEB-INF/classes/static/image"+ imageFiter.get(i).getImage_name();
+                    String image="/home/rang/yogidamayo/app/WEB-INF/classes/static/image/"+ imageFiter.get(i).getImage_name();
                     imageFiter.get(i).setImage_name(image);
                     imageList.add(imageFiter.get(i));
                 }
