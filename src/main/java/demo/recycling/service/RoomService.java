@@ -178,7 +178,9 @@ public class RoomService {
                     //System.out.println(rooms.get(i).getTag());
                     //String[] tag_name = StringUtils.split(room.getTag(), "\\$");
                     //List<String> tags = Arrays.asList(tag_name);
-                    List<String> tags = Arrays.stream(tagName.split("\\$")).toList();
+                    List<String> tags =new ArrayList<>();
+                    tags.addAll(Arrays.stream(tagName.split("\\$")).toList());
+                    tags.removeAll(Arrays.asList("",null));
                     rooms.get(i).setTags(tags);
                     if (tags.contains(keyword)) {
                         searchList.add(rooms.get(i));
@@ -215,13 +217,29 @@ public class RoomService {
                 List<Room> titleList = selectTitle(keyword);
 
                 //title로 검색한 tag값 split
-                for (int i = 0; i < tagList.size(); i++) {
-                    String tagName = "";
-                    if ((tagName = tagList.get(i).getTag()) != null) {
-                        List<String> tags = Arrays.stream(tagName.split("\\$")).toList();
-                        tagList.get(i).setTags(tags);
+                for (int i = 0; i < titleList.size(); i++) {
+                    String tagName = null;
+
+                    if ((tagName = titleList.get(i).getTag())!=null) {
+
+                        List<String> tags = new ArrayList<>();
+                        tags.addAll(Arrays.stream(tagName.split("\\$")).toList());
+                        // System.out.println(tags.size());
+                        if(tags.contains("")){
+                            if(tags.size()==1){
+                                List<String> notags=new ArrayList<>();
+                                titleList.get(i).setTags(notags);
+                            }else{
+                                tags.removeAll(Arrays.asList("", null));
+                                titleList.get(i).setTags(tags);
+                            }
+                        }else{
+                            titleList.get(i).setTags(tags);
+                        }
+
                     }
                 }
+
                 //System.out.println(tagList.size());
                 //System.out.println(titleList.size());
                 //두개를 비교하여 중복 된 방을 찾아서 list에 담기 (rum넘버로 찾음)
@@ -255,4 +273,5 @@ public class RoomService {
             return null;
         }
     }
+
 }
