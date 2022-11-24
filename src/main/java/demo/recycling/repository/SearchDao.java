@@ -15,10 +15,19 @@ public class SearchDao {
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
 
-    public List<SearchDetail> selectDetailSearch(String data) throws Exception{
+    public SearchDetail selectDetailSearch(int data) throws Exception{
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try{
             return sqlSession.getMapper(SearchMapper.class).selectDetailSearch(data);
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public List<String>  selectResultsearch(String keyword) throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try{
+            return sqlSession.getMapper(SearchMapper.class).selectResultsearch(keyword);
         }finally {
             sqlSession.close();
         }

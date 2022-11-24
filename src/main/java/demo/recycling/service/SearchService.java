@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SearchService {
@@ -20,19 +21,36 @@ public class SearchService {
     public List<SearchDetail> getSearchdata(String data){
 
         List<SearchDetail> datas = new ArrayList<>();
+        List<Integer> splitdata=new ArrayList<>();
 
         try {
 
-            //겁색결과가 없을 시에 아래의 문구 표시
-            if(!"".equals(data)){
-                datas = searchDao.selectDetailSearch(data);
 
+            if(!"".equals(data)){
+                List<String> d_no=searchDao.selectResultsearch(data);
+            //result의 문자를 불러서 split하여 detail에 일치하는 번호 찾기
+                for(String split:d_no){
+                    String[] split_d_no=split.split(",");
+                    for(String split_no:split_d_no){
+                        //System.out.println(split_no);
+                        splitdata.add(Integer.valueOf(split_no));
+                    }
+                }
+
+                List<Integer> noduplication=splitdata.stream().distinct().collect(Collectors.toList());
+
+                for(Integer detail:noduplication){
+                    datas.add(searchDao.selectDetailSearch(detail));
+                }
+
+                //검색결과가 없을 시에 아래의 문구 표시
                 if(datas.size()==0){
                     Search.setNo(999);
                     Search.setD_name("미등록 쓰레기, 요기담아요에 요청을 남겨주시면 빠르게 반영하겠습니다!");
                     datas.add(Search);
                 }
             }else {
+                //공백일 경우에 표시
                 Search.setNo(1);
                 Search.setD_name("");
                 datas.add(Search);
