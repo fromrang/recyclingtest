@@ -91,10 +91,10 @@ public class    PostService {
 
             int result = postDao.deletePost(pseq);
             int result2 = postDao.deleteImage(pseq);
-
+            //System.out.println("!!!"+result2);
             if(result > 0){
 
-                if(result2 == 1){
+                if(result2 >= 1){
                     // 데이터 삭제하기
                     if(images.size() != 0){
                         for(int i = 0; i < images.size(); i++){

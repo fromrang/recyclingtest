@@ -49,7 +49,7 @@ public class RoomController {
         }
     }
 
-    // 방 입장
+    // 방확인
     @PostMapping("/room")
     public ResponseEntity joinRoom(@RequestBody Member member) throws NoSuchAlgorithmException {
         String result = roomService.joinRoom(member);
@@ -63,7 +63,7 @@ public class RoomController {
             return new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "[ERROR]joinRoom"), HttpStatus.BAD_REQUEST);
         }
     }
-
+    //방입장
     @PutMapping("/room")
     public ResponseEntity insertRoomMember(@RequestBody Member member) throws NoSuchAlgorithmException{
         String result = roomService.insertRoomMember(member);
