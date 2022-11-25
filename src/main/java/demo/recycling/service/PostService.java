@@ -122,9 +122,9 @@ public class    PostService {
     // 사진과 Post 정보를 저장.
     public boolean insertPost(List<MultipartFile> files, Post post) throws Exception{
 
-       // String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        // String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
         String UPDATE_PATH = "/home/rang/frontend/build/images/";
-       // String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+        // String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
 
         List<String> imageName = new ArrayList<>();
         int buff = 0;
@@ -134,6 +134,14 @@ public class    PostService {
         int result  = postDao.insertpost(post);
 
         try{
+            // 이미지 저장 경로 주소 얻기
+            File destdir = new File(UPDATE_PATH);
+
+            // 경로에 해당 폴더들이 없으면 폴더(디렉토리) 생성.
+            if(!destdir.exists()){
+                destdir.mkdirs();
+            }
+
             // post 저장 성공 시 , 이미지들 저장.
             if(result != 0){
 
@@ -197,9 +205,9 @@ public class    PostService {
         int ck = 0;
 
         //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
-       //String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        //String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
         String UPDATE_PATH = "/home/rang/frontend/build/images/";
-        
+
         // 추가 이미지 저장
         for(MultipartFile file : files){
             String orignalfileName = file.getOriginalFilename();
@@ -269,7 +277,7 @@ public class    PostService {
                 }
             }
         }
-        
+
         // DB에 저장 된 이미지와 삭제 할 이미지 다를 경우 오류 표시
         if(ck != images.size()) return false;
 
@@ -303,7 +311,7 @@ public class    PostService {
         if(result == 0)  return false;
 
         return true;
-        
+
     }
 
 
@@ -311,7 +319,7 @@ public class    PostService {
     public boolean postupdate(List<MultipartFile> files,Post post)throws Exception{
 
         //String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
-       // String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+        // String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
         String UPDATE_PATH = "/home/rang/frontend/build/images/";
 
         // 추가 이미지 저장
