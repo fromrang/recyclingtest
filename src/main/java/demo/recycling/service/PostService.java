@@ -140,6 +140,14 @@ public class    PostService {
             // 경로에 해당 폴더들이 없으면 폴더(디렉토리) 생성.
             if(!destdir.exists()){
                 destdir.mkdirs();
+
+                Runtime.getRuntime().exec("chmod 777 " + UPDATE_PATH);
+                destdir.setExecutable(true, false);
+                destdir.setReadable(true, false);
+                destdir.setWritable(true, false);
+
+                destdir.createNewFile();
+
             }
 
             // post 저장 성공 시 , 이미지들 저장.
