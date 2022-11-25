@@ -35,7 +35,8 @@ public class    PostService {
                 List<Image> imageList=new ArrayList<>();
                 List<Image> imageFiter=postDao.selectImage(postList.getPseq());
                 for(int i=0;i<imageFiter.size();i++){
-                    String image="/home/rang/yogidamayo/app/WEB-INF/classes/static/image/"+ imageFiter.get(i).getImage_name();
+                    //String image="/home/rang/yogidamayo/app/WEB-INF/classes/static/image/"+ imageFiter.get(i).getImage_name();
+                    String image="/images/"+ imageFiter.get(i).getImage_name();
                     imageFiter.get(i).setImage_name(image);
                     imageList.add(imageFiter.get(i));
                 }
@@ -83,13 +84,34 @@ public class    PostService {
 
     public boolean deletePost(int pseq){
         try {
+
+            //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+            String UPDATE_PATH = "/home/rang/frontend/build/images/";
+            List<Image> images = postDao.selectImage(pseq);
+
             int result = postDao.deletePost(pseq);
             int result2 = postDao.deleteImage(pseq);
-            if(result > 0 && result2 > 0){
+
+            if(result > 0){
+
+                if(result2 == 1){
+                    // 데이터 삭제하기
+                    if(images.size() != 0){
+                        for(int i = 0; i < images.size(); i++){
+                            File file = new File(UPDATE_PATH + File.separator + images.get(i).getImage_name());
+                            boolean result_f = file.delete();
+                        }
+                    }
+                }
+
                 return true;
             }else {
                 return false;
             }
+
+
+
+
         }catch (Exception e){
             e.printStackTrace();
             return false;
@@ -100,8 +122,9 @@ public class    PostService {
     // 사진과 Post 정보를 저장.
     public boolean insertPost(List<MultipartFile> files, Post post) throws Exception{
 
-       String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
-        //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+       // String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        String UPDATE_PATH = "/home/rang/frontend/build/images/";
+       // String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
 
         List<String> imageName = new ArrayList<>();
         int buff = 0;
@@ -174,7 +197,8 @@ public class    PostService {
         int ck = 0;
 
         //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
-       String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+       //String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        String UPDATE_PATH = "/home/rang/frontend/build/images/";
         
         // 추가 이미지 저장
         for(MultipartFile file : files){
@@ -233,8 +257,8 @@ public class    PostService {
         int ck = 0;
 
         //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
-        String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
-
+        //String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        String UPDATE_PATH = "/home/rang/frontend/build/images/";
         // 삭제할 이미지 정보 검수
         originImages = postDao.selectImage(post.getPseq());
 
@@ -286,8 +310,9 @@ public class    PostService {
     // 추가 사진 저장과 내용 수정
     public boolean postupdate(List<MultipartFile> files,Post post)throws Exception{
 
-        String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
+        //String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
        // String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+        String UPDATE_PATH = "/home/rang/frontend/build/images/";
 
         // 추가 이미지 저장
         for(MultipartFile file : files){
