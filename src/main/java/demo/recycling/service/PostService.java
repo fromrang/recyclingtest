@@ -84,13 +84,34 @@ public class    PostService {
 
     public boolean deletePost(int pseq){
         try {
+
+            //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+            String UPDATE_PATH = "/home/rang/frontend/build/images/";
+            List<Image> images = postDao.selectImage(pseq);
+
             int result = postDao.deletePost(pseq);
             int result2 = postDao.deleteImage(pseq);
-            if(result > 0 && result2 > 0){
+
+            if(result > 0){
+
+                if(result2 == 1){
+                    // 데이터 삭제하기
+                    if(images.size() != 0){
+                        for(int i = 0; i < images.size(); i++){
+                            File file = new File(UPDATE_PATH + File.separator + images.get(i).getImage_name());
+                            boolean result_f = file.delete();
+                        }
+                    }
+                }
+
                 return true;
             }else {
                 return false;
             }
+
+
+
+
         }catch (Exception e){
             e.printStackTrace();
             return false;
@@ -103,7 +124,7 @@ public class    PostService {
 
        // String UPDATE_PATH = "/home/rang/yogidamayo/app/WEB-INF/classes/static/image/";
         String UPDATE_PATH = "/home/rang/frontend/build/images/";
-        //String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
+       // String UPDATE_PATH = "D:\\f_project\\recyclingclon\\src\\main\\resources\\static\\image\\";
 
         List<String> imageName = new ArrayList<>();
         int buff = 0;
