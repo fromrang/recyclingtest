@@ -39,10 +39,10 @@ public interface RoomMapper {
     @Select("Select * from member where nickname=#{nickname} and rum= #{rum}")
     public Member nicknameCheck(String nickname, int rum) throws Exception;
     // Tag
-    @Select("SELECT rum,title, rm_type, count, maxnum,reg_date,(SELECT tag_name FROM tag WHERE tag.rum= room.rum) AS tag FROM room")
+    @Select("select r.rum,r.title,r.count,r.maxnum,r.reg_date,t.tag_name as tag from room r inner join tag t on r.rum=t.rum")
     public List<Room> selectTagList() throws Exception;
     // Title
-    @Select("SELECT rum,title, rm_type, count, maxnum,reg_date,(SELECT tag_name FROM tag WHERE tag.rum= room.rum) as tag FROM room WHERE title IN (SELECT title FROM member WHERE title LIKE CONCAT('%',#{keyword},'%'))")
+    @Select("select r.rum,r.title,r.count,r.maxnum,r.reg_date,t.tag_name as tag from room r inner join tag t on r.rum=t.rum where r.title like CONCAT('%',#{keyword},'%')")
     public List<Room> selectTitle(String keyword) throws Exception;
 
     //해당 게시물의 룸 이름

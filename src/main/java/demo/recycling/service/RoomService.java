@@ -209,9 +209,11 @@ public class RoomService {
     // Tag,Title List 중복제거 및 정렬
     public List<Room> searchRoom(String keyword) {
         try {
+
             List<Room> roomListAll = new ArrayList<>(); // 전체 리스트
             List<Integer> intersection = new ArrayList<>(); // 교집합 리스트
-            try {
+
+
                 //키워드가 포함된 tag list,title list
                 List<Room> tagList = selectTag(keyword);
                 List<Room> titleList = selectTitle(keyword);
@@ -264,9 +266,7 @@ public class RoomService {
                     }
                 }
                 Collections.sort(roomListAll);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
             return roomListAll;
         } catch (Exception e) {
             e.printStackTrace();
