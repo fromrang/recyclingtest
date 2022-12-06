@@ -75,6 +75,7 @@ public class SuggestionDao {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try{
             int result = sqlSession.getMapper(SuggestionMapper.class).updateSuggestionStatus(sseq);
+//            System.out.println(sseq);
             sqlSession.commit();
             return result;
         }finally {
