@@ -73,10 +73,11 @@ public class SuggestionService {
         }
 
     }
-    //문의하기 삭제
+    //문의하기 답변완료
     public boolean serviceSuggestionDelete(int sseq){
         try{
             int result = suggestionDao.updateSuggestionStatusDao(sseq);
+//            System.out.println(sseq);
             return result >= 1;
         }catch (Exception e){
             e.printStackTrace();
