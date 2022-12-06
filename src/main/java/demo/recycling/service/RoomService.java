@@ -265,7 +265,7 @@ public class RoomService {
                         roomListAll.add(titleList.get(i));
                     }
                 }
-                Collections.sort(roomListAll);
+                Collections.sort(roomListAll,Collections.reverseOrder());
 
             return roomListAll;
         } catch (Exception e) {
